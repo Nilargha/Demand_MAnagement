@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta charset="utf-8" />
+<meta charset="ISO-8859-1" />
+<title>DEMAND MANAGEMENT</title>
+<meta name="generator" content="Bootply" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css"
+	rel="stylesheet" />
+<!--[if lt IE 9]>
+			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+<link href="css/styles.css" rel="stylesheet" />
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  
+<link rel="stylesheet" href="/DashboardInit.css" />
+</head>
+<body>
+
+	<span style="font-size: 30px; cursor: pointer" onclick="openNav()">&#9776;</span>
+
+
+	<div id="mySidenav" class="sidenav">
+		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+		<a href="#">Profile</a> <a class="trigger" >Create Demand</a> <a
+			class="triggerShow">View Demand</a> <a href="ShowMyDemands.jsp">View
+			My Demands</a>
+
+	</div>
+
+
+	<div class="modal">
+		<div class="modal-content">
+			<div class="modal-header">
+				<span class="close-button">&times;</span>
+				<h2>Create Demand</h2>
+			</div>
+			<input type="text" class="modalTitle" id="title" 
+				placeholder="Enter Demand Title" />
+			<textarea class="modalDescription"
+				placeholder="Enter Demand Description" id="styleDesc"></textarea>
+			<br /> <input type="file" name="file" size="50" class="fileHandle" /><br />
+			<br />
+			<button type="submit" class="btn" onclick="storeDemand()">Submit
+				Demand</button>
+		</div>
+	</div>
+
+	<div class="modalShow">
+		<div class="modalShow-content">
+			<div class="modalShow-header">
+				<span class="closeShow-button">&times;</span>
+				<h2>View Demand</h2>
+			</div>
+			<div class="search-container">
+				<form action="ShowDemand.jsp" method="post">
+					<input type="text" placeholder="Search Demand ID .."
+						name="searchID" class="searchID" /><br /> <label class="OR">OR</label>
+					<input type="text" placeholder="Search Demand Title .."
+						name="searchTitle" class="searchTitle" />
+					<button type="submit" class="view">SEARCH</button>
+				</form>
+			</div>
+
+
+		</div>
+	</div>
+<script src="script1.js"></script>
+</body>
+</html>
