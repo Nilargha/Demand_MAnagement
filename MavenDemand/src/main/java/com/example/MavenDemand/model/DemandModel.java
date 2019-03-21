@@ -7,13 +7,21 @@ public class DemandModel {
 		// TODO Auto-generated constructor stub
 	}
 
-	private int id;
+	private String id;
 	   private String title;
 	   private String desc;
 	   private String status;
-	   
+	   private int iduser;
 
-		    public String getStatus() {
+		    public int getIduser() {
+		return iduser;
+	}
+
+	public void setIduser(int iduser) {
+		this.iduser = iduser;
+	}
+
+			public String getStatus() {
 		return status;
 	}
 
@@ -21,11 +29,11 @@ public class DemandModel {
 		this.status = status;
 	}
 
-			public int getId() {
+			public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

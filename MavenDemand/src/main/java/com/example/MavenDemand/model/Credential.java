@@ -6,8 +6,26 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Credential {
 	private String name;
 	   private String pass;
+	   private String iduser;
+	   private String role;
 
-	    /**
+	    public String getIduser() {
+		return iduser;
+	}
+
+	public void setIduser(String iduser) {
+		this.iduser = iduser;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+		/**
 	     * @return the name
 	     */
 	    public String getName() {

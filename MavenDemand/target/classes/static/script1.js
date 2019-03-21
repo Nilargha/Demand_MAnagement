@@ -8,16 +8,21 @@ document.addEventListener("DOMContentLoaded", function () {
     
     
 });
+
+var session = null;
+
+
+
  
 function validate() {
 	
 	//alert("Inside Function");
 	//console.write("Inside Function");
-	var uname = document.getElementById("uname").value;
+	
 	//console.write ( "Fetched uname" );
 	//alert(uname);
 	var pass = document.getElementById("pass").value;
-		 
+	var uname = document.getElementById("uname").value;
 	    $.ajax({
 	        async: "true",
 	        type: "POST",
@@ -27,6 +32,7 @@ function validate() {
 	            "Content-Type": "application/json"
 	        }, 
 	        success: function (data) {
+	        	document.cookie = "name="+data;
 	        	window.location.replace("/dashboard");
 	        },
 	        error: function (data) {
@@ -98,16 +104,27 @@ function storeDemand()
 toggleModal();
  
  // logic to store everything in DB
- var num=(101 * 100) + 1;
+ //var num=Math.floor((Math.random() * 100000) + 1);
+var num="30002";
  var title = document.getElementById("title").value;
  var desc = document.getElementById("styleDesc").value;
  var status="Active";
+ var name;
+ 
+ var cookieval=document.cookie;
+ var cookies = cookieval.split(';');
+ for (var i=0;i<1;i++)
+	 {
+	 name = cookies[i].split('=')[1];
+	 
+	 }
+ 
  
  $.ajax({
         async: "true",
         type: "POST",
         url: "http://localhost:8087/createDemand",
-        data: '{ "id": \"' + num + '\", "title": \"' + title + '\", "desc": \"' + desc + '\", "status": \"' + status + '\"}',
+        data: '{ "id": \"' + num + '\", "title": \"' + title + '\", "desc": \"' + desc + '\", "status": \"' + status + '\", "iduser": \"' +  name + '\"}',
         headers: {
             "Content-Type": "application/json"
         }, 
@@ -117,7 +134,7 @@ toggleModal();
         },
         error: function (data) {
             
-                $("#serverContent").html(data["responseJSON"]["message"]);
+                alert(data["responseJSON"]["message"]);
             
         }});
 
@@ -128,7 +145,37 @@ toggleModal();
 }
 
 trigger.addEventListener("click", toggleModal);
+
 triggerShow.addEventListener("click", toggleModalShow);
 closeButton.addEventListener("click", toggleModal);
 closeShowButton.addEventListener("click", toggleModalShow);
 window.addEventListener("click", windowOnClick);
+
+
+
+var globalcookie=document.cookie;
+
+$(document).ready(function() {
+    $('#table').DataTable( {
+        dom: 'Bfrtip',
+        ajax: {
+            "type"   : "POST",
+            "url"    : 'http://localhost:8087/ShowMyDemands',
+            "data"   : {
+                iduser : globalcookie
+            }
+            
+          },
+        columns: [
+            { data: "id" },
+            { data: "title" },
+            { data: "desc" },
+            { data: "Status" }
+         
+           
+        ],
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    } );
+} );

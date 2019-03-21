@@ -7,7 +7,7 @@ package com.example.MavenDemand.controller;
 
 /**
  *
- * @author subhajgh
+ * @author Neel
  */
 
 
@@ -24,6 +24,21 @@ public class UIControllers {
     @RequestMapping("/dashboard")
     public String dashboard(Model model) {
         return "dashboard";
+    }
+    
+    @RequestMapping("/showdemands")
+    public String showdemand(Model model) {
+        return "ShowMyDemands";
+    }
+    
+    @RequestMapping("/showeverydemands")
+    public String showeverydemand(Model model) {
+        return "ShowAllDemands";
+    }
+    
+    @RequestMapping("/demandapproval")
+    public String approvedemand(Model model) {
+        return "DemandApproval";
     }
 
 }

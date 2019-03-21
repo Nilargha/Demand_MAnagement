@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.example.MavenDemand.model.Credential;
+import com.example.MavenDemand.model.DemandModel;
 
 @Repository
 public class LorealDaoImpl {
@@ -19,7 +20,7 @@ public class LorealDaoImpl {
 
 	public Integer getUserDetails(String username) {
 
-		String sql = "SELECT ID FROM USER WHERE USERNAME = ?";
+		String sql = "SELECT iduser FROM USER WHERE USERNAME = ?";
 
 		Integer customer =  jdbcTemplate.queryForObject(sql, new Object[] {username},Integer.class);
 
@@ -57,16 +58,84 @@ public class LorealDaoImpl {
 		
 	}
 	
-	public Integer createDemand(int id,String title ,String desc,String status) {
+	public Integer createDemand(String id,String title ,String desc,String status,int iduser) {
 
-		String sql = "INSERT INTO `loreal`.`demands` (`idDemands`, `DemandTitle`, `DemandDesc`, `Status`) VALUES (?,?,?,?)";
+		String sql = "INSERT INTO `loreal`.`demands` (`idDemands`, `DemandTitle`, `DemandDesc`, `Status`, `iduser`) VALUES (?,?,?,?,?)";
 
 
-		Object[] params = new Object[] { id, title, desc, status };
-		int[] types = new int[] { Types.INTEGER, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR };
+		Object[] params = new Object[] { id, title, desc, status,iduser };
+		int[] types = new int[] { Types.INTEGER, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.INTEGER };
 		 int row =  jdbcTemplate.update(sql, params, types);
 		return row;
 
 	}
+	
+	
+public List<DemandModel> getAllActiveDemands(int iduser) {
+		
+		String sql="SELECT * FROM loreal.demands where status='Active' and iduser= ?";
+		 List<DemandModel> demList = new ArrayList<DemandModel>();
+         //List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+         List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, new Object[] {iduser});
+        // List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, args, argTypes)
+         for (Map<String, Object> row : rows) 
+         {
+        	 DemandModel dem = new DemandModel();
+        	 dem.setId((String)row.get("idDemands"));
+        	 dem.setTitle((String)row.get("DemandTitle"));
+        	 dem.setDesc((String)row.get("DemandDesc"));
+        	 dem.setStatus((String)row.get("Status"));
+        	 dem.setIduser((int)row.get("iduser"));
+        	 demList.add(dem);
+          }
+
+             return demList;
+		
+		
+	}
+
+public List<DemandModel> getAllDemands() {
+	
+	String sql="SELECT * FROM loreal.demands";
+	 List<DemandModel> demList = new ArrayList<DemandModel>();
+     //List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+     List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+    // List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, args, argTypes)
+     for (Map<String, Object> row : rows) 
+     {
+    	 DemandModel dem = new DemandModel();
+    	 dem.setId((String)row.get("idDemands"));
+    	 dem.setTitle((String)row.get("DemandTitle"));
+    	 dem.setDesc((String)row.get("DemandDesc"));
+    	 dem.setStatus((String)row.get("Status"));
+    	 dem.setIduser((int)row.get("iduser"));
+    	 demList.add(dem);
+      }
+
+         return demList;
+	
+	
+}
+
+public int approveDemand(String id) {
+
+	String sql = "update loreal.demands set status='Approved' where idDemands= ?";
+
+	//jdbcTemplate.queryForObject(sql, new Object[] {id},String.class);
+	jdbcTemplate.update(sql,  new Object[] {id});
+	return 1;
+
+}
+
+public int rejectDemand(String id) {
+
+	String sql = "update loreal.demands set status='Rejected' where idDemands= ?";
+
+	//jdbcTemplate.queryForObject(sql, new Object[] {id},String.class);
+	jdbcTemplate.update(sql,  new Object[] {id});
+	return 1;
+
+}
+
 
 }

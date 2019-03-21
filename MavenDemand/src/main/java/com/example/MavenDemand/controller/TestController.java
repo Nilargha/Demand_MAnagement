@@ -54,15 +54,17 @@ public class TestController {
     public Object login(@RequestBody Credential credentials ,HttpServletResponse response) throws URISyntaxException, IOException {
     try
     {
-    if(credentials.getPass().equals(	lorealdao.getUserPass(credentials.getName() ) ) )
+    if(credentials.getPass().equals(lorealdao.getUserPass(credentials.getName()) ) )
     		{
     //	response.sendRedirect("http://localhost:8087/dashboard");
 //    	URI uri = new URI("");
 //        HttpHeaders httpHeaders = new HttpHeaders();
 //        httpHeaders.setLocation(uri);
 //        return new ResponseEntity<>(httpHeaders, HttpStatus.TEMPORARY_REDIRECT);
+    	int uid=lorealdao.getUserDetails(credentials.getName());
 //    	
-    				return new ResponseEntity<>(new ResponseModel("Success"),HttpStatus.OK);
+    				//return new ResponseEntity<>(new ResponseModel(credentials.getIduser()),HttpStatus.OK);
+    	return uid;
     		}
     }
     catch (EmptyResultDataAccessException e) {
@@ -97,7 +99,7 @@ public class TestController {
     @RequestMapping( path = "/createDemand", method = RequestMethod.POST )
     public Object login(@RequestBody DemandModel dem ,HttpServletResponse response){
     	
-    	if(lorealdao.createDemand(dem.getId(),dem.getTitle(), dem.getDesc(),dem.getStatus()) != null){
+    	if(lorealdao.createDemand(dem.getId(),dem.getTitle(), dem.getDesc(),dem.getStatus(),dem.getIduser()) != null){
     		
     		return new ResponseEntity<>(new ResponseModel("Success"),HttpStatus.OK);
     	}
@@ -105,6 +107,52 @@ public class TestController {
     	 return new ResponseEntity<>(new ResponseModel("Not Done"),HttpStatus.BAD_REQUEST);
     	
     	
+    }
+    
+    @RequestMapping( path = "/ShowMyDemands", method = RequestMethod.GET )
+    public Object showDemand(@RequestParam("iduser") int iduser)  {
+    	List<DemandModel> cred = lorealdao.getAllActiveDemands(iduser);
+		ResponseModel res=new ResponseModel();
+		for(DemandModel c: cred){
+		List<String> temp=new ArrayList<>();
+		temp.add(c.getId());
+		temp.add(c.getTitle());
+		temp.add(c.getDesc());
+		temp.add(c.getStatus());
+		//temp.add((String)c.getIduser());
+		res.getData().add(temp);
+		}
+		return res;
+    }
+    
+    @RequestMapping( path = "/ShowAllDemands", method = RequestMethod.GET )
+    public Object showDemand()  {
+    	List<DemandModel> cred = lorealdao.getAllDemands();
+		ResponseModel res=new ResponseModel();
+		for(DemandModel c: cred){
+		List<String> temp=new ArrayList<>();
+		temp.add(c.getId());
+		temp.add(c.getTitle());
+		temp.add(c.getDesc());
+		temp.add(c.getStatus());
+	    int s=(c.getIduser());
+	    String s1=Integer.toString(s);
+		temp.add(s1);
+		res.getData().add(temp);
+		}
+		return res;
+    }
+    
+    @RequestMapping( path = "/approveDem", method = RequestMethod.POST )
+    public int apprDem(@RequestParam("id") String id)  {
+    	Integer cred = lorealdao.approveDemand(id);
+    	return cred;
+    }
+    
+    @RequestMapping( path = "/rejectDem", method = RequestMethod.POST )
+    public int rejectDem(@RequestParam("id") String id)  {
+    	Integer cred = lorealdao.rejectDemand(id);
+    	return cred;
     }
     
     }
