@@ -19,7 +19,7 @@
   
 <link rel="stylesheet" href="/DashboardInit.css" />
 </head>
-<body >
+<body onload="checkUser()">
 
 	<span style="font-size: 30px; cursor: pointer" onclick="openNav()">&#9776;</span>
 
@@ -28,7 +28,7 @@
 		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 		<a href="#">Profile</a> <a class="trigger" >Create Demand</a> <a id="showeverydem" onclick="showall()"
 			class="triggerShow">View Demand</a> <a id="showdemand" onclick="showdemand()">View
-			My Demands</a>
+			My Demands</a><a onclick= "deleteCookie()" >Logout</a>
 
 	</div>
 
@@ -70,7 +70,11 @@
 		</div>
 	</div>
 <script src="script1.js"></script>
+<script src="userValidation.js"></script>
 <script>
+//<![CDATA[
+
+
 
 function showdemand(){
 	
@@ -81,11 +85,7 @@ function showall(){
 	window.location.replace("/showeverydemands");
 }
 
-/* function showCookie()
-{
-	alert(document.cookie);
-	} */
-
+	//]]>
 </script>
 </body>
 </html>

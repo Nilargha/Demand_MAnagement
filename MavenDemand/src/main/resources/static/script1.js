@@ -1,3 +1,31 @@
+    function uniqueId() {
+        const firstItem = {
+            value: "0"
+        };
+        /*length can be increased for lists with more items.*/
+        let counter = "123456789".split('')
+            .reduce((acc, curValue, curIndex, arr) => {
+                const curObj = {};
+                curObj.value = curValue;
+                curObj.prev = acc;
+
+                return curObj;
+            }, firstItem);
+        firstItem.prev = counter;
+
+        return function () {
+            let now = Date.now();
+            if (typeof performance === "object" && typeof performance.now === "function") {
+                now = performance.now().toString().replace('.', '');
+            }
+            counter = counter.prev;
+            return `${now}${Math.random().toString(16).substr(2)}${counter.value}`;
+        }
+    }
+
+
+
+
 var dialog_org = null;
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -26,14 +54,15 @@ function validate() {
 	    $.ajax({
 	        async: "true",
 	        type: "POST",
-	        url: "http://localhost:8087/login",
+	        url: "http://localhost:8087/api/login",
 	        data: '{ "name": \"' + uname + '\", "pass": \"' + pass + '\"}',
 	        headers: {
 	            "Content-Type": "application/json"
 	        }, 
 	        success: function (data) {
 	        	document.cookie = "name="+data;
-	        	window.location.replace("/dashboard");
+	        	//window.location.replace("/dashboard");
+	        	roleNavigate(data);
 	        },
 	        error: function (data) {
 	            
@@ -43,8 +72,41 @@ function validate() {
 	
 }
 
+function roleNavigate(userid)
+{
+	$.ajax({
+        async: "true",
+        type: "GET",
+        url: "http://localhost:8087/api/getRole",
+        data:  {
+        	id:userid
+        },
+
+        headers: {
+            "Content-Type": "application/json"
+        }, 
+        success: function (data) {
+        	if(data == "2"){
+        		window.location.replace("/dashboard");
+        	}
+        	else if(data == "3")
+        		{
+        		window.location.replace("/approverdashboard");
+        		}
+        	
+        	
+        },
+        error: function (data) {
+            
+                $("#serverContent").html(data["responseJSON"]["message"]);
+            
+        }});
+	
+	}
+
+
 $('#example').DataTable( {
-    "ajax": 'http://localhost:8087/getallusers',
+    "ajax": 'http://localhost:8087/api/getallusers',
     "columnDefs": [ {
         "targets": -1,
         "data": null,
@@ -105,7 +167,10 @@ toggleModal();
  
  // logic to store everything in DB
  //var num=Math.floor((Math.random() * 100000) + 1);
-var num="30002";
+const randomIdGenerator = uniqueId();
+
+
+var num=randomIdGenerator();
  var title = document.getElementById("title").value;
  var desc = document.getElementById("styleDesc").value;
  var status="Active";
@@ -123,7 +188,7 @@ var num="30002";
  $.ajax({
         async: "true",
         type: "POST",
-        url: "http://localhost:8087/createDemand",
+        url: "http://localhost:8087/api/createDemand",
         data: '{ "id": \"' + num + '\", "title": \"' + title + '\", "desc": \"' + desc + '\", "status": \"' + status + '\", "iduser": \"' +  name + '\"}',
         headers: {
             "Content-Type": "application/json"
@@ -160,7 +225,7 @@ $(document).ready(function() {
         dom: 'Bfrtip',
         ajax: {
             "type"   : "POST",
-            "url"    : 'http://localhost:8087/ShowMyDemands',
+            "url"    : 'http://localhost:8087/api/ShowMyDemands',
             "data"   : {
                 iduser : globalcookie
             }

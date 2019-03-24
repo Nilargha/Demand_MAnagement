@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class UIControllers {
-    @RequestMapping("/")
+    @RequestMapping("/login")
     public String homePage(Model model) {
         return "DemandLogin";
     }
@@ -25,6 +25,12 @@ public class UIControllers {
     public String dashboard(Model model) {
         return "dashboard";
     }
+    
+    @RequestMapping("/approverdashboard")
+    public String approverdashboard(Model model) {
+        return "ApproverDashboard";
+    }
+    
     
     @RequestMapping("/showdemands")
     public String showdemand(Model model) {
@@ -39,6 +45,11 @@ public class UIControllers {
     @RequestMapping("/demandapproval")
     public String approvedemand(Model model) {
         return "DemandApproval";
+    }
+    
+    @RequestMapping("/demandapproved")
+    public String approveddemand(Model model) {
+        return "DemandApproved";
     }
 
 }

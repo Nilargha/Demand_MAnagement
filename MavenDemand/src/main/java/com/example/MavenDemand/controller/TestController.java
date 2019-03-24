@@ -38,10 +38,17 @@ import com.example.MavenDemand.model.ResponseModel;
  */
 @RestController
 public class TestController {
+	
+	
 	@Autowired
 	LorealDaoImpl lorealdao;
 	
-    @RequestMapping("/details")
+	
+	static final String BASE_URL="/api";
+			
+	
+	
+    @RequestMapping(path =BASE_URL+"/details", method = RequestMethod.GET)
     public Object getPersonDetails() {
         Person p = new Person();
         p.setAge("25");
@@ -50,7 +57,7 @@ public class TestController {
     }
     
     
-    @RequestMapping( path = "/login", method = RequestMethod.POST )
+    @RequestMapping( path =BASE_URL+ "/login", method = RequestMethod.POST )
     public Object login(@RequestBody Credential credentials ,HttpServletResponse response) throws URISyntaxException, IOException {
     try
     {
@@ -75,7 +82,7 @@ public class TestController {
     }
     
     
-    @RequestMapping( path = "/getallusers", method = RequestMethod.GET )
+    @RequestMapping( path =BASE_URL+"/getallusers", method = RequestMethod.GET )
     public Object allCredInfo()  {
 		List<Credential> cred = lorealdao.getAllUserDetails();
 		ResponseModel res=new ResponseModel();
@@ -90,13 +97,13 @@ public class TestController {
     }
     
     
-    @RequestMapping( path = "/getusers", method = RequestMethod.GET )
+    @RequestMapping( path =BASE_URL+"/getusers", method = RequestMethod.GET )
     public Object allCredInfo(@RequestParam("username") String username)  {
     	Integer cred = lorealdao.getUserDetails(username);
     	return cred;
     }
     
-    @RequestMapping( path = "/createDemand", method = RequestMethod.POST )
+    @RequestMapping( path =BASE_URL+"/createDemand", method = RequestMethod.POST )
     public Object login(@RequestBody DemandModel dem ,HttpServletResponse response){
     	
     	if(lorealdao.createDemand(dem.getId(),dem.getTitle(), dem.getDesc(),dem.getStatus(),dem.getIduser()) != null){
@@ -109,7 +116,7 @@ public class TestController {
     	
     }
     
-    @RequestMapping( path = "/ShowMyDemands", method = RequestMethod.GET )
+    @RequestMapping( path =BASE_URL+"/ShowMyDemands", method = RequestMethod.GET )
     public Object showDemand(@RequestParam("iduser") int iduser)  {
     	List<DemandModel> cred = lorealdao.getAllActiveDemands(iduser);
 		ResponseModel res=new ResponseModel();
@@ -125,7 +132,7 @@ public class TestController {
 		return res;
     }
     
-    @RequestMapping( path = "/ShowAllDemands", method = RequestMethod.GET )
+    @RequestMapping( path =BASE_URL+"/ShowAllDemands", method = RequestMethod.GET )
     public Object showDemand()  {
     	List<DemandModel> cred = lorealdao.getAllDemands();
 		ResponseModel res=new ResponseModel();
@@ -143,15 +150,21 @@ public class TestController {
 		return res;
     }
     
-    @RequestMapping( path = "/approveDem", method = RequestMethod.POST )
+    @RequestMapping( path =BASE_URL+"/approveDem", method = RequestMethod.GET )
     public int apprDem(@RequestParam("id") String id)  {
     	Integer cred = lorealdao.approveDemand(id);
     	return cred;
     }
     
-    @RequestMapping( path = "/rejectDem", method = RequestMethod.POST )
+    @RequestMapping( path =BASE_URL+"/rejectDem", method = RequestMethod.GET )
     public int rejectDem(@RequestParam("id") String id)  {
     	Integer cred = lorealdao.rejectDemand(id);
+    	return cred;
+    }
+    
+    @RequestMapping( path =BASE_URL+"/getRole", method = RequestMethod.GET )
+    public int getRoleOfUser(@RequestParam("id") int id)  {
+    	Integer cred = lorealdao.getUserRole(id);
     	return cred;
     }
     

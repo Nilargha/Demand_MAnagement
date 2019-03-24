@@ -64,12 +64,22 @@ public class LorealDaoImpl {
 
 
 		Object[] params = new Object[] { id, title, desc, status,iduser };
-		int[] types = new int[] { Types.INTEGER, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.INTEGER };
-		 int row =  jdbcTemplate.update(sql, params, types);
+		 int row =  jdbcTemplate.update(sql, params);
 		return row;
 
 	}
 	
+	public Integer createDemandUploadDocument(String id,String path) {
+
+		String sql = "UPDATE `loreal`.`demands` set uploadedfilepath='"+path+"' where idDemands='"+id+"'";
+
+System.out.println("----------------------------");
+		Object[] params = new Object[] {path};
+		 int row =  jdbcTemplate.update(sql);
+		 System.out.println("-------------------------"+sql);
+		return row;
+
+	}
 	
 public List<DemandModel> getAllActiveDemands(int iduser) {
 		
@@ -137,5 +147,14 @@ public int rejectDemand(String id) {
 
 }
 
+public Integer getUserRole(int id) {
+
+	String sql = "SELECT role FROM USER WHERE iduser = ?";
+
+	Integer role =  jdbcTemplate.queryForObject(sql, new Object[] {id},Integer.class);
+
+	return role;
+
+}
 
 }

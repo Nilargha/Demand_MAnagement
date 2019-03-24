@@ -20,7 +20,7 @@
 		 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 </head>
 
-<body>
+<body onload="checkLogin()">
 	<!--login modal-->
 	<div id="loginModal" class="modal show" tabindex="-1" role="dialog"
 		aria-hidden="true">
@@ -66,7 +66,7 @@
 </table>
 
 	<!-- script references -->
-	
+<script src="userValidation.js"></script>	
 	
 	<script src="script1.js"></script>
 </body>

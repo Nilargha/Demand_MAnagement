@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css"/>
 		
 </head>
-<body>
+<body onload="checkUser()">
 
             <h3>DEMAND LIST</h3>
 				<table class="display nowrap" id="table"   style="width:100%">
@@ -62,11 +62,14 @@
   <!-- <script src="script1.js"></script> -->
 
 		
-		<form action="DemandView.jsp" method ="post">
-		<button>Back</button>
+		<form align ="center" action="/dashboard" method ="post">
+		<button>HOME PAGE</button>
 		</form>
 		
-		<script>
+		<script src="userValidation.js"></script>
+		
+		<script type="text/javascript">
+//<![CDATA[ 
 		
 		var name;
 		 
@@ -83,7 +86,7 @@
         dom: 'Bfrtip',
         ajax: {
             "type"   : "GET",
-            "url"    : 'http://localhost:8087/ShowAllDemands',
+            "url"    : 'http://localhost:8087/api/ShowAllDemands',
             "data"   : null
                 
             
@@ -97,6 +100,7 @@
     
     
 } );
+		//]]>
 		</script>
 </body>
 

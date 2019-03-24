@@ -16,29 +16,37 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css"/>
 		
 </head>
-<body>
+<body onload="checkUser()">
 
             <h3>DEMAND LIST</h3>
+            
+            <form align ="center" action="/approverdashboard" method ="post">
+		<button>HOME PAGE</button>
+		</form>
 				<table class="display nowrap" id="table"   style="width:100%">
 					<thead class ="table-dark">
 					
 						<tr>
+							
 							<th>DEMAND ID</th>
 							<th>TITLE</th>
 							<th>DESCRIPTION</th>
 							<th>Status</th>
 							
+							<th></th>
 							
 						</tr>
 					</thead>
 
-					<tfoot >
+					<tfoot>
 						<tr>
+							
 							<th>DEMAND ID</th>
 							<th>TITLE</th>
 							<th>DESCRIPTION</th>
 							<th>Status</th>
 							
+							<th></th>
 							
 						</tr>
 					</tfoot>
@@ -61,12 +69,15 @@
   <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
   <!-- <script src="script1.js"></script> -->
 
+	
+<script src="userValidation.js"></script>
+		<script type="text/javascript">
+//<![CDATA[ 
+
+
+
+
 		
-		<form action="DemandView.jsp" method ="post">
-		<button>Back</button>
-		</form>
-		
-		<script>
 		
 		var name;
 		 
@@ -83,7 +94,7 @@
         dom: 'Bfrtip',
         ajax: {
             "type"   : "GET",
-            "url"    : 'http://localhost:8087/ShowMyDemands',
+            "url"    : 'http://localhost:8087/api/ShowAllDemands',
             "data"   : {
                 iduser : name
             }
@@ -94,9 +105,11 @@
             'copy', 'csv', 'excel', 'pdf', 'print'
         ] ,
         columnDefs : [ {
+        	"className":  'details-control',
             "targets": -1,
             "data": null,
-            "defaultContent": "<button class='btn-approve' >Approve</button><button class='btn-reject'>Reject</button>"
+             
+            "defaultContent": "<button class='btn-approve' >Approve</button><br/><br/><button class='btn-reject'>Reject</button>"
         } ]
           
   	    
@@ -105,11 +118,12 @@
    $('#table tbody').on('click','.btn-approve',function (){
 	   var data = table.row( $(this).parents('tr')).data();
    	var iddem = data[0].toString();
+   	
    	//alert(data[0]+ " intoString approve");
    	$.ajax({
 	        async: "true",
-	        type: "POST",
-	        url: "http://localhost:8087/approveDem",
+	        type: "GET",
+	        url: "http://localhost:8087/api/approveDem",
 	        data: {
 	        	id:iddem
 	        },
@@ -117,7 +131,7 @@
 	            "Content-Type" : "application/json"
 	        }, 
 	        success: function (data) {
-	        	window.location.replace("/DemandApproval");
+	        	window.location.replace("/demandapproval");
 	        },
 	        error: function (data) {
 	            
@@ -132,13 +146,72 @@
 	    
 	    $('#table tbody').on('click','.btn-reject',function (){
 	    	var data = table.row( $(this).parents('tr')).data();
-	    	var id = data[0];
+	    	var iddem = data[0];
 	    	alert(data[0]+ " in reject");
-	    	});
+	     	$.ajax({
+		        async: "true",
+		        type: "GET",
+		        url: "http://localhost:8087/api/rejectDem",
+		        data: {
+		        	id:iddem
+		        },
+		        headers: {
+		            "Content-Type" : "application/json"
+		        }, 
+		        success: function (data) {
+		        	window.location.replace("/demandapproval");
+		        },
+		        error: function (data) {
+		            
+		                $("#serverContent").html(data["responseJSON"]["message"]);
+		            
+		        }
+		        
+	   	});
+	   });
  
-    
+	    // Add event listener for opening and closing details
+	    $('#table tbody').on('click', 'td.details-control', function () {
+	        var tr = $(this).closest('tr');
+	        var row = table.row( tr );
+	 
+	        if ( row.child.isShown() ) {
+	            // This row is already open - close it
+	            row.child.hide();
+	            tr.removeClass('shown');
+	        }
+	        else {
+	            // Open this row
+	            row.child( format(row.data()) ).show();
+	            tr.addClass('shown');
+	        }
+	    } );
+	    
     
 } );
+		
+		function format ( d ) {
+		    // `d` is the original data object for the row
+		    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+		        '<tr>'+
+		            '<td>Demand ID : </td>'+
+		            '<td>'+d[0]+'</td>'+
+		        '</tr>'+
+		        '<tr>'+
+		            '<td>Demand Title : </td>'+
+		            '<td>'+d[1]+'</td>'+
+		        '</tr>'+
+		        '<tr>'+
+		            '<td>Demand Description : </td>'+
+		            '<td>'+d[2]+'</td>'+
+		        '</tr>'+
+		        '<tr>'+
+	            '<td>Status : </td>'+
+	            '<td>'+d[3]+'</td>'+
+	        '</tr>'+
+		    '</table>';
+		}
+		//]]>
 		</script>
 </body>
 

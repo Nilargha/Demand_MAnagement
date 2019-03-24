@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="ISO-8859-1"/>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <meta charset="utf-8" />
 <meta name="generator" content="Bootply" />
@@ -20,9 +20,9 @@
 <link rel="stylesheet"
 	href="/LoginDemand.css" />
 </head>
-<body>
+<body onload="checkLogin()">
 	<div class="form">
-		<form action="DemandView.jsp" method="post">
+		<form action="" method="post">
 			<input type="email" name="email" placeholder="Username" id="uname" /><br />
 			<br /> <input type="password" name="password" placeholder="Password"
 				id="pass" /><br />
@@ -34,5 +34,6 @@
 	</div>
 
 	<script src="script1.js"></script>
+	<script src="userValidation.js"></script>	
 </body>
 </html>

@@ -16,9 +16,14 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css"/>
 		
 </head>
-<body>
+<body onload="checkUser()">
 
             <h3>DEMAND LIST</h3>
+            
+            <form align ="center" action="/dashboard" method ="post">
+		<button>HOME PAGE</button>
+		</form>
+		
 				<table class="display nowrap" id="table"   style="width:100%">
 					<thead class ="table-dark">
 					
@@ -66,6 +71,8 @@
 		<button>Back</button>
 		</form>
 		
+		<script src="userValidation.js"></script>
+		
 		<script>
 		
 		var name;
@@ -83,7 +90,7 @@
         dom: 'Bfrtip',
         ajax: {
             "type"   : "GET",
-            "url"    : 'http://localhost:8087/ShowMyDemands',
+            "url"    : 'http://localhost:8087/api/ShowMyDemands',
             "data"   : {
                 iduser : name
             }
