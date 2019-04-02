@@ -1,0 +1,352 @@
+@charset "ISO-8859-1";
+
+body {
+  font-family: "Lato", sans-serif;
+}
+body {
+  background: #76b852; /* fallback for old browsers */
+  background: -webkit-linear-gradient(right, #76b852, #8DC26F);
+  background: -moz-linear-gradient(right, #76b852, #8DC26F);
+  background: -o-linear-gradient(right, #76b852, #8DC26F);
+  background: linear-gradient(to left, #76b852, #8DC26F);
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;      
+}
+
+.fade-in center{
+  animation: fadeIn ease 5s;
+  -webkit-animation: fadeIn ease 5s;
+  -moz-animation: fadeIn ease 5s;
+  -o-animation: fadeIn ease 5s;
+  -ms-animation: fadeIn ease 5s;
+  margin-top: 100px;
+  color: #f5f5f5;
+  font-size: 80px;
+}
+
+@keyframes fadeIn
+{
+	from {opacity: 0}
+	to {opacity: 1}
+}
+
+ 
+.modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.1);
+    transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+    overflow: auto;
+}
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 1rem 1.5rem;
+    width: 70%;
+    height: 70%;
+    border-radius: 0.5rem;
+    box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2),0 5px 8px 0 rgba(0,0,0,0.2),0 5px 8px 0 rgba(0,0,0,0.2),0 5px 8px 0 rgba(0,0,0,0.2);
+    animation-name: modalOpen;
+    animation-duration: 2s;
+}
+.close-button {
+    float: right;
+    width: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    background-color: lightgray;
+}
+.close-button:hover {
+    background-color: darkgray;
+}
+.show-modal {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1.0);
+    transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+}
+
+@keyframes modalOpen{
+	from {opacity: 0}
+	to {opacity: 1}
+}
+
+.modal-header
+{
+	background: #76b852;
+	padding: 15px;
+	color: #fff;
+	
+}
+
+.modalTitle{
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 30%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.modalDescription {
+	font-family: "Roboto", sans-serif;
+    background-color: #f2f2f2;
+    outline: 0;
+    border: 0;
+    height: 100px;
+    width: 100%;
+    margin: 0 0 15px;
+    padding: 15px;
+    overflow-y: scroll;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+#styleDesc::-webkit-scrollbar {
+    width: 6px;
+    background-color: #f4f4f2;
+} 
+#styleDesc::-webkit-scrollbar-thumb {
+    background-color: #76b852;
+}
+
+.btn {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #4CAF50;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+
+.btn:hover,.btn:active,.btn:focus {
+  background: #43A047;
+}
+
+.modalShow {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.1);
+    transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+    overflow: auto;
+}
+.modalShow-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 1rem 1.5rem;
+    width: 24rem;
+    height: 70%;
+    border-radius: 0.5rem;
+    box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2),0 5px 8px 0 rgba(0,0,0,0.2),0 5px 8px 0 rgba(0,0,0,0.2),0 5px 8px 0 rgba(0,0,0,0.2);
+    animation-name: modalOpen;
+    animation-duration: 2s;
+}
+.modalShow-header
+{
+	background: #76b852;
+	padding: 15px;
+	color: #fff;
+	
+}
+
+.closeShow-button {
+    float: right;
+    width: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    background-color: lightgray;
+}
+.closeShow-button:hover {
+    background-color: darkgray;
+}
+
+.show-modalShow {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1.0);
+    transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+}
+.modalEdit {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.1);
+    transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+    overflow: auto;
+}
+.modalEdit-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 1rem 1.5rem;
+    width: 35rem;
+    height: 90%;
+    border-radius: 0.5rem;
+    box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2),0 5px 8px 0 rgba(0,0,0,0.2),0 5px 8px 0 rgba(0,0,0,0.2),0 5px 8px 0 rgba(0,0,0,0.2);
+    animation-name: modalOpen;
+    animation-duration: 2s;
+}
+.modalEdit-header
+{
+	background: #76b852;
+	padding: 15px;
+	color: #fff;
+	
+}
+
+.closeEdit-button {
+    float: right;
+    width: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    background-color: lightgray;
+}
+.closeEdit-button:hover {
+    background-color: darkgray;
+}
+
+.show-modalEdit {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1.0);
+    transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+}
+
+
+.searchTitle{
+	top: 10;
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 15px 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.OR
+{
+	align-content: center;
+}
+
+.searchID{
+	top: 10;
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 15px 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.view {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #4CAF50;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+
+.view:hover,.view:active,.view:focus {
+  background: #43A047;
+}
+
+
+.sidenav {
+  height: 100%;
+  width: 20%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.9);
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 20px 10px 30px 50px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+  cursor: pointer;
+}
+
+.sidenav .trigger:hover {
+	color: #f1f1f1;
+	cursor: pointer;
+	
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}

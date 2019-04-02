@@ -1,0 +1,10 @@
+com\example\MavenDemand\controller\UIControllers.class
+com\example\MavenDemand\dao\LorealDaoImpl.class
+com\example\MavenDemand\controller\UploadController.class
+com\example\MavenDemand\model\DemandModel.class
+com\example\MavenDemand\model\Credential.class
+com\example\MavenDemand\config\SecurityConfiguration.class
+com\example\MavenDemand\MavenDemandApplication.class
+com\example\MavenDemand\controller\TestController.class
+com\example\MavenDemand\model\ResponseModel.class
+com\example\MavenDemand\model\Person.class

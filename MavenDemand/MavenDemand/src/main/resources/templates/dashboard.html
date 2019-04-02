@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta charset="utf-8" />
+<meta charset="ISO-8859-1" />
+<title>DEMAND MANAGEMENT</title>
+<meta name="generator" content="Bootply" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css"
+	rel="stylesheet" />
+<!--[if lt IE 9]>
+			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+<link href="css/styles.css" rel="stylesheet" />
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  
+<link rel="stylesheet" href="/DashboardInit.css" />
+</head>
+<body onload="checkUser()">
+
+	<span style="font-size: 30px; cursor: pointer" onclick="openNav()">&#9776;</span>
+
+
+	<div id="mySidenav" class="sidenav">
+		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+		<a href="#">Profile</a> <a class="trigger" >Create Demand</a> 
+		<!--  <a class ="triggerEdit" >Edit Demand</a> --> 
+		<a id="showeverydem" onclick="showall()" class="triggerShow">View Demand</a> 
+			<a id="showdemand" onclick="showdemand()">View My Demands</a>
+			<a onclick= "deleteCookie()" >Logout</a>
+
+	</div>
+
+
+	<div class="modal">
+		<div class="modal-content">
+			<div class="modal-header">
+				<span class="close-button">&times;</span>
+				<h2>Create Demand</h2>
+			</div>
+				<input type="text" class="modalTitle" id="requestor" placeholder="Enter Requestor ID" />
+				<select name="zone" class="modalTitle" id="zone"><option>Select Zone</option></select>
+				<input type="text" class="modalTitle" id="entity" placeholder="Enter Demand Entity" />
+				<input type="text" class="modalTitle" id="projectNm" placeholder="Enter Project Name" />
+				<input type="text" class="modalTitle" id="projectMngr" placeholder="Enter Project Manager" />
+				<input type="text" class="modalTitle" id="title" placeholder="Enter Demand Title" />
+				<input type="text" class="modalTitle" id="shrtDesc" placeholder="Enter Demand Short Description" />
+				<input type="text" class="modalTitle" id="type" placeholder="Enter Demand Type" />
+				<input type="text" class="modalTitle" id="mngdServReqd" placeholder="Managed Services Required ? " />
+				<input type="date" class="modalTitle" id="dvlryDt" placeholder="Delivery wished date ? " />
+				<input type="date" class="modalTitle" id="mngdServGoLive" placeholder="Go Live Date ?" />
+				
+			<textarea class="modalDescription"
+				placeholder="Enter Demand Description" id="styleDesc"></textarea>
+			<br /> <input type="file" name="file" size="50" class="fileHandle" id="upload" /><br />
+			<br />
+			<button type="submit" class="btn"  id="createDem">Submit
+				Demand</button>
+		</div>
+	</div>
+	
+	<!-- <div class="modalEdit">
+    <div class="modalEdit-content">
+    	<div class="modalEdit-header">
+        <span class="closeEdit-button">&times;</span>
+        <h2>Update Demand</h2>
+        </div>
+        <div class="search-container">
+         <form action="" method ="post">
+      <input type="text" placeholder="Search Demand ID .." name="searchID" class ="searchID"/><br/>
+      
+      <button type="submit" class="view" id="demsearch">SEARCH</button>
+    	 </form>
+        </div>
+        <br/> <br/> 
+        <input type = "text" class = "modalTitle" placeholder="Enter Demand Title"></input>
+        <textarea class = "modalDescription" placeholder="Enter Demand Description" id = "styleDesc"></textarea><br/>
+        <input type="file" name="file" size="50" class ="fileHandle" /><br/><br/>
+        <button type="submit" class="btn" onclick="storeDemand()">Update Demand</button>
+    </div>
+</div> -->
+
+	<div class="modalShow">
+		<div class="modalShow-content">
+			<div class="modalShow-header">
+				<span class="closeShow-button">&times;</span>
+				<h2>View Demand</h2>
+			</div>
+			<div class="search-container">
+				<form action="ShowDemand.jsp" method="post">
+					<input type="text" placeholder="Search Demand ID .."
+						name="searchID" class="searchID" /><br /> <label class="OR">OR</label>
+					<input type="text" placeholder="Search Demand Title .."
+						name="searchTitle" class="searchTitle" />
+					<button type="submit" class="view">SEARCH</button>
+				</form>
+			</div>
+
+
+		</div>
+	</div>
+<script src="script1.js"></script>
+<script src="userValidation.js"></script>
+<script>
+//<![CDATA[
+
+	$(document).ready(function() {
+	
+//var id = $(this).val();
+var select = $('#zone');
+$.ajax({
+
+type: "GET",
+    url: "http://localhost:8087/api/getZone",
+    data: null,
+    success: function(data) {
+    	
+    	
+    	
+    	
+         var htmlOptions = [];
+        var item,html;
+              for( item in data) { 
+            	  
+            	  var obj = data[item] +'';
+            	  
+            	 
+            	  
+            	   var str = obj.split(',');
+            	   
+            	   for (var i = 0 ; i<str.length;i++)
+            		   {
+            	  
+                  html = '<option value="' +str[i] + '">' + str[i] + '</option>';
+            		   
+                  
+             htmlOptions[htmlOptions.length] = html;
+               } 
+ 
+              // here you will empty the pre-existing data from you selectbox and will append the htmlOption created in the loop result
+              select.empty().append(htmlOptions);
+              }
+          
+    },
+    error: function(error) {
+        alert(error.responseJSON.message);
+    }  
+}); 
+	
+	});
+
+function showdemand(){
+	
+	window.location.replace("/showdemands");
+}
+function showall(){
+	
+	window.location.replace("/showeverydemands");
+}
+
+	//]]>
+</script>
+</body>
+</html>
