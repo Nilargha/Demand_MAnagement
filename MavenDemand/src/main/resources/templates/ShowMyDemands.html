@@ -10,6 +10,7 @@
 	content="width=device-width, initial-scale=1, maximum-scale=1" />
 <link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css"
 	rel="stylesheet" />
+	
 <link rel="stylesheet" href="style.css" />
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/> -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"/>
@@ -31,7 +32,11 @@
 							<th>DEMAND ID</th>
 							<th>TITLE</th>
 							<th>DESCRIPTION</th>
-							<th>Status</th>
+							<th>STATUS</th>
+							<th>ZONE</th>
+							<th>PHASE</th>
+							<th></th>
+							
 							
 							
 						</tr>
@@ -42,14 +47,49 @@
 							<th>DEMAND ID</th>
 							<th>TITLE</th>
 							<th>DESCRIPTION</th>
-							<th>Status</th>
-							
+							<th>STATUS</th>
+							<th>ZONE</th>
+							<th>PHASE</th>
+							<th></th>
 							
 						</tr>
 					</tfoot>
 					</table>
+					<br/> <br/>
+					
+					 <h1 class="heading">Work Notes</h1>
+					
+					 <br/> <br/>
 					
 					
+					 <ul id="comment-stream" class="comment-stream">
+<!-- dummy data:       <li>Hey! <span class="comment-remove">&times;</span></li>
+      <li>Just a thought <span href="" class="comment-remove">&times;</span></li> -->
+    </ul>
+    
+    <div class="modalNotes">
+		<div class="modalNotes-content">
+			<div class="modalNotes-header">
+				<span class="closeNotes-button">&times;</span>
+				<h2>Post WorkNotes</h2>
+			</div>
+			<div class="search-container">
+				<form action="" method="post">
+				
+				<br/><br/>
+				<input id="demid"></input>
+				<br/><br/><br/>
+					<textarea class="workPost" placeholder=""></textarea>
+					<br/><br/>
+					<button type="submit" class="posting">POST</button>
+				</form>
+			</div>
+
+
+		</div>
+	</div>
+					
+			
 		
 		<!-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
@@ -67,13 +107,40 @@
   <!-- <script src="script1.js"></script> -->
 
 		
-		<form action="DemandView.jsp" method ="post">
-		<button>Back</button>
-		</form>
+	
 		
 		<script src="userValidation.js"></script>
 		
 		<script>
+		//<![CDATA[
+			
+			var modalNotes = document.querySelector(".modalNotes");
+			var closeNotesButton = document.querySelector(".closeNotes-button");
+			
+			
+			function toggleModalNotes() {
+				modalNotes.classList.toggle("show-modalNotes");
+				//modal.style.display = "none";
+				//var a = 1;
+				}
+			
+			function windowOnClick(event) {
+				if (event.target === modalNotes) {
+				    toggleModalNotes();
+				}
+				
+				/*else if (event.target === modalEdit)
+				{
+				toggleModalEdit();
+				}*/
+
+
+
+				}
+			
+			closeNotesButton.addEventListener("click", toggleModalNotes);
+			window.addEventListener("click", windowOnClick);
+			
 		
 		var name;
 		 
@@ -84,7 +151,12 @@
 			 name = cookies[i].split('=')[1];
 			 
 			 }
+		 
+		 function jsonEscape(styleDesc)  {
+			    return styleDesc.replace(/\n/g, "\\\\n").replace(/\r/g, "\\\\r").replace(/\t/g, "\\\\t");
+			}
 		
+		 
 		$(document).ready(function() {
    var table =  $('#table').DataTable( {
         dom: 'Bfrtip',
@@ -92,20 +164,216 @@
             "type"   : "GET",
             "url"    : 'http://localhost:8087/api/ShowMyDemands',
             "data"   : {
-                iduser : name
+                UserID : name
             }
+            
+            
             
           },
        
         buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'
-        ]
+        ],
+        columnDefs : [ {
+        	"className":  'details-control',
+            "targets": -1,
+            "data": null,
+             
+            "defaultContent": "<button class='btn-worknote' >show worknotes</button>&nbsp;<button class='btn-details'>show Details</button>"
+        } ]
+        
     } );
     
+   $('#table tbody').on('click','.btn-worknote',function (){
+	   var data = table.row( $(this).parents('tr')).data();
+   	var iddem = data[0].toString();
+   	
+   	//alert(data[0]+ " intoString approve");
+   	$.ajax({
+	        async: "true",
+	        type: "GET",
+	        url: "http://localhost:8087/api/dispworknote",
+	        data: {
+	        	id:iddem
+	        },
+	        headers: {
+	            "Content-Type" : "application/json"
+	        }, 
+	        success: function (data) {
+	        	 var htmlOptions = [];
+	             var item,html;
+	             commentList.innerHTML = '';
+	                   for( item in data) { 
+	                	   
+	                	   var a = data[item];
+	                	   
+	                	   
+	                	   for(i=0;i<a.length;i++)
+	                		   {
+	                	   
+	                	 	var str = a[i]+'';    
+	                	 	var newstr = str.split(',');
+	                	 	
+	                	 	appendToStream(commentList,newstr, i);
+	                	 	
+	                	 	
+	                		   }
+	                	   
+	                 	
+	                 	  
+	                 	 
+	                 	  
+	                 	 
+	                 	 
+	                 	  
+	                 	   
+	                   }
+	        	//window.location.replace("/demandapproval");
+	        },
+	        error: function (data) {
+	            
+	                $("#serverContent").html(data["responseJSON"]["message"]);
+	            
+	        }
+	        
+   	});
+   });
    
+   $('#table tbody').on('click', '.btn-details', function () {
+       var tr = $(this).closest('tr');
+       var row = table.row( tr );
+
+       if ( row.child.isShown() ) {
+           // This row is already open - close it
+           row.child.hide();
+           tr.removeClass('shown');
+       }
+       else {
+           // Open this row
+           row.child( format(row.data()) ).show();
+           tr.addClass('shown');
+       }
+   } );
+    
+   $('#table tbody').on('click', '.btn-post', function () {
+	   
+	   var tr = $(this).closest('tr').parents('tr');
+	   var prevtr = tr.prev('tr')[0];
+	   var data = table.row(prevtr).data();
+	   
+	  //alert('seeing data   '+ data);
+	 // alert('seeing data   '+ data[0]);
+	   	//var iddem = d.data();
+	    //alert(iddem['DEMAND ID']);
+	    	 	$('#demid').val(data[0]);
+	   toggleModalNotes(); 
+
+    
+     
+   } );
     
     
 } );
+		
+		$(".posting").click(function(event){
+			
+			alert("finally in posting");
+			
+			   var notes=$('.workPost').val();
+			   var id = $('#demid').val();
+		       var newNotes = jsonEscape(notes);
+
+		     alert(newNotes + "  "+id);
+		     
+		     $.ajax({
+			        async: "true",
+			        type: "POST",
+			        url: "http://localhost:8087/api/postWorknotes",
+			        data: '{ "worknotedesc": \"' + newNotes + '\", "createdby": \"' + name + '\", "demandid": \"' + id + '\"}',
+			        headers: {
+			            "Content-Type": "application/json"
+			        }, 
+			        success: function (data) {
+			        	//window.location.replace("/dashboard");
+			        	alert(" Worknote successfully Updated.");
+			        	//window.location.replace("/showdemands");
+			        
+			        },
+			        error: function (data) {
+			            
+			                alert(data["responseJSON"]["message"]);
+			            
+			        }
+			        }); 
+		});
+		
+		var commentList = document.getElementById('comment-stream');
+		
+		
+		
+		function appendToStream(stream, str, index) {
+			  var div = document.createElement('DIV');
+			  var div1 = document.createElement('DIV');
+			  var div2 = document.createElement('BR');
+			  var header = document.createElement('H6');
+			  div.className='comment-content';
+			  div1.className='comment-head';
+			  header.className = 'comment-name';
+			  div.setAttribute('data-index', index);
+			  div1.setAttribute('data-index', index);
+			  div2.setAttribute('data-index', index);
+			  header.setAttribute('data-index', index);
+			  
+			  div.innerHTML = str[1];
+			  var space = '&emsp;'
+			  var space_out = space.repeat(68);
+			 // div1.innerHTML = str[2]+space_out+str[3];
+			  div2.innerHTML = '<br/><br/><br/>';
+			  header.innerHTML = str[2]+space_out+str[3];
+			  stream.appendChild(div1);
+			  div1.appendChild(header);
+			  stream.appendChild(div);
+			  stream.appendChild(div2);
+			 
+			}
+		function format ( d ) {
+		    // `d` is the original data object for the row
+		    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+		    '<tr>'+
+            '<td>Demand ID : </td>'+
+            '<td>'+d[0]+'</td>'+'<td></td>'+'<td>Phase Name : </td>'+'<td>'+d[5]+'</td><td></td>'+'<td>Last Updated By : </td>'+'<td>'+d[10]+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Demand Title : </td>'+
+            '<td>'+d[1]+'</td>'+'<td></td>'+'<td>Create Date : </td>'+'<td>'+d[6]+'</td><td></td>'+'<td>Last Update Date : </td>'+'<td>'+d[11]+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Demand Short Description : </td>'+
+            '<td>'+d[2]+'</td>'+'<td></td>'+'<td>Initiated By : </td>'+'<td>'+d[7]+'</td><td></td>'+'<td>Managed Services Required : </td>'+'<td>'+d[12]+'</td>'+
+        '</tr>'+
+        '<tr>'+
+        '<td>Status : </td>'+
+        '<td>'+d[3]+'</td>'+'<td></td>'+'<td>Demand Type : </td>'+'<td>'+d[8]+'</td><td></td>'+'<td>Project Manager : </td>'+'<td>'+d[13]+'</td>'+
+    '</tr>'+
+    '<tr>'+
+    '<td>Zone :  </td>'+
+    '<td>'+d[4]+'</td>'+'<td></td>'+'<td>Entity : </td>'+'<td>'+d[9]+'</td><td></td>'+'<td>Project Name : </td>'+'<td>'+d[14]+'</td>'+
+'</tr>'+
+'<tr>'+
+'<td>Demand Long Description : </td>'+
+'<td colspan="2">'+d[15]+'</td>'+
+'</tr>'+
+'<tr>'+
+'<td>Add Work Notes</td>'+
+'<td></td>'+'&nbsp;'+
+'<td><button class="btn-post">POST COMMENT</button></td>'+
+'</tr>'+
+		    '</table>';
+		}
+		
+	
+		
+		//]]>
 		</script>
 </body>
 

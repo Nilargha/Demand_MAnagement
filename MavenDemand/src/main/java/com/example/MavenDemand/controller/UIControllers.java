@@ -47,9 +47,25 @@ public class UIControllers {
         return "DemandApproval";
     }
     
+    @RequestMapping("/tpdldasboard")
+    public String dashboardtpdl(Model model) {
+        return "TPDLDashboard";
+    }
+
+    @RequestMapping("/ccoedqdemands")
+    public String demandsdqccoe(Model model) {
+        return "CcoeDQDemands";
+    }
+    
     @RequestMapping("/demandapproved")
     public String approveddemand(Model model) {
         return "DemandApproved";
     }
+    
+    @RequestMapping("/tpdldqdemands")
+    public String demandsdqtpdl(Model model) {
+        return "TpdlDQDemands";
+    }
+
 
 }

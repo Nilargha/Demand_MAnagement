@@ -61,7 +61,7 @@ function checkLogin()
 		        type: "GET",
 		        url: "http://localhost:8087/api/getRole",
 		        data:  {
-		        	id:name
+		        	uname:name
 		        },
 
 		        headers: {

@@ -66,3 +66,247 @@ table td {
   background: #800000;
 }
 
+ .heading {
+    color: yellow;
+    border-left: 3px solid yellow;
+    line-height: 1;
+    padding-left: 12px;
+  }
+ li {
+      font-size: 28px;
+      padding-left: 10px;
+      border-left: 3px solid #4a4a4a;
+      margin-bottom: 25px;
+      &:hover .comment-remove {
+        display: inline-block;
+      }
+    }
+  .comment-head {
+	background: #f7e2cc;
+	padding: 3px 12px;
+	
+	border-bottom: 1px solid #E5E5E5;
+	overflow: hidden;
+	-webkit-border-radius: 4px 4px 0 0;
+	-moz-border-radius: 4px 4px 0 0;
+	border-radius: 4px 4px 0 0;
+	width: 80%;
+	 
+	
+}
+.comment-name{color: #03658c;font-size: 15px;}
+
+ .comment-content {
+	background: #FFF;
+	padding: 12px;
+	font-size: 15px;
+	color: #595959;
+	-webkit-border-radius: 0 0 4px 4px;
+	-moz-border-radius: 0 0 4px 4px;
+	border-radius: 0 0 4px 4px;
+	width: 80%;
+}
+    
+.modalAssign {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.1);
+    transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+    overflow: auto;
+}
+.modalAssign-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 1rem 1.5rem;
+    width: 24rem;
+    height: 70%;
+    border-radius: 0.5rem;
+    box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2),0 5px 8px 0 rgba(0,0,0,0.2),0 5px 8px 0 rgba(0,0,0,0.2),0 5px 8px 0 rgba(0,0,0,0.2);
+    animation-name: modalOpen;
+    animation-duration: 2s;
+}
+.modalAssign-header
+{
+	background: #76b852;
+	padding: 15px;
+	color: #fff;
+	
+}
+
+.closeAssign-button {
+    float: right;
+    width: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    background-color: lightgray;
+}
+.closeAssign-button:hover {
+    background-color: darkgray;
+}
+
+.show-modalAssign {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1.0);
+    transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+}
+
+.modalDescription::-webkit-scrollbar {
+    width: 6px;
+    background-color: #f4f4f2;
+} 
+.modalDescription::-webkit-scrollbar-thumb {
+    background-color: #76b852;
+}
+.modalDescription {
+	font-family: "Roboto", sans-serif;
+    background-color: #f2f2f2;
+    outline: 0;
+    border: 0;
+    height: 100px;
+    width: 100%;
+    margin: 0 0 15px;
+    padding: 15px;
+    overflow-y: scroll;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+.workPost::-webkit-scrollbar {
+    width: 6px;
+    background-color: #f4f4f2;
+} 
+.workPost::-webkit-scrollbar-thumb {
+    background-color: #76b852;
+}
+.workPost {
+	font-family: "Roboto", sans-serif;
+    background-color: #f2f2f2;
+    outline: 0;
+    border: 0;
+    height: 100px;
+    width: 100%;
+    margin: 0 0 15px;
+    padding: 15px;
+    overflow-y: scroll;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+.modalNotes {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.1);
+    transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+    overflow: auto;
+}
+.modalNotes-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 1rem 1.5rem;
+    width: 24rem;
+    height: 70%;
+    border-radius: 0.5rem;
+    box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2),0 5px 8px 0 rgba(0,0,0,0.2),0 5px 8px 0 rgba(0,0,0,0.2),0 5px 8px 0 rgba(0,0,0,0.2);
+    animation-name: modalOpen;
+    animation-duration: 2s;
+}
+.modalNotes-header
+{
+	background: #76b852;
+	padding: 15px;
+	color: #fff;
+	
+}
+
+.closeNotes-button {
+    float: right;
+    width: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    background-color: lightgray;
+}
+.closeNotes-button:hover {
+    background-color: darkgray;
+}
+
+.show-modalNotes {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1.0);
+    transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+}
+.modalUpload {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.1);
+    transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+    overflow: auto;
+}
+.modalUpload-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 1rem 1.5rem;
+    width: 24rem;
+    height: 70%;
+    border-radius: 0.5rem;
+    box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2),0 5px 8px 0 rgba(0,0,0,0.2),0 5px 8px 0 rgba(0,0,0,0.2),0 5px 8px 0 rgba(0,0,0,0.2);
+    animation-name: modalOpen;
+    animation-duration: 2s;
+}
+.modalUpload-header
+{
+	background: #76b852;
+	padding: 15px;
+	color: #fff;
+	
+}
+
+.closeUpload-button {
+    float: right;
+    width: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    background-color: lightgray;
+}
+.closeUpload-button:hover {
+    background-color: darkgray;
+}
+
+.show-modalUpload {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1.0);
+    transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+}

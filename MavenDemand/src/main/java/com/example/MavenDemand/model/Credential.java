@@ -8,8 +8,26 @@ public class Credential {
 	   private String pass;
 	   private String iduser;
 	   private String role;
+	   private String email;
+	   private String zoneid;
 
-	    public String getIduser() {
+	    public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getZoneid() {
+		return zoneid;
+	}
+
+	public void setZoneid(String zoneid) {
+		this.zoneid = zoneid;
+	}
+
+		public String getIduser() {
 		return iduser;
 	}
 

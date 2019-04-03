@@ -9,14 +9,21 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class ResponseModel {
 private String message;
 private List<List<String>> data=new ArrayList();
+private List<String> info=new ArrayList();
 
 public List<List<String>> getData() {
 	return data;
 }
 
-public void setData(List<List<String>> data) {
-	this.data = data;
+public List<String> getInfo() {
+	return info;
 }
+
+
+public void setData(List<String> info) {
+	this.info = info;
+}
+
 
 public String getMessage() {
 	return message;

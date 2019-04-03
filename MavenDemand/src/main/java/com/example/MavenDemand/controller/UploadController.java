@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.MavenDemand.SimpleDateFormatter;
 import com.example.MavenDemand.dao.LorealDaoImpl;
 import com.example.MavenDemand.model.ResponseModel;
 
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Date;
 
 
 @RestController
@@ -33,9 +35,11 @@ public class UploadController {
         return "/api/upload";
     }
 
-    @PostMapping("/api/upload/{id}") 
+    @PostMapping("/api/upload/{demid}/{name}/{newfile}") 
     public Object singleFileUpload(@RequestParam("file") MultipartFile file,
-    		@PathVariable("id") String requestId) {
+    		@PathVariable("demid") String requestId,@PathVariable("name") String creatorname,@PathVariable("newfile") String filedesc) {
+    	
+    	System.out.println(requestId+" "+creatorname+" "+ filedesc);
 
         if (file.isEmpty()) {
             
@@ -48,9 +52,9 @@ public class UploadController {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
             Files.write(path, bytes);
+            Date date=Date.valueOf(new SimpleDateFormatter().format());
             
-            
-            daoimpl.createDemandUploadDocument(requestId, UPLOADED_FOLDER + file.getOriginalFilename());
+            daoimpl.createDemandUploadDocument(requestId, UPLOADED_FOLDER + file.getOriginalFilename(),creatorname,filedesc,date);
             
             return new ResponseEntity<>(new ResponseModel("You successfully uploaded '" + file.getOriginalFilename() + "'"),HttpStatus.OK);
 
