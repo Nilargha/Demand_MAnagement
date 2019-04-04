@@ -74,11 +74,11 @@
 				<span class="closeAssign-button">&times;</span>
 				<h2>Assign Demand</h2>
 			</div>
-				<input type="text" id="ID" placeholder="Enter Requestor ID" />
+				<input type="text" id="ID" placeholder="" />
 				<select name="zone" class="modalTitle" id="tpdl"><option>Select TPDL USER</option></select>
 				
 			<br />
-			<button type="submit" class="btn"  id="AssignDem">Assign to Service Requirements</button>&nbsp;&nbsp;<button type="submit" class="btn"  id="AssignDem">Assign to Eligibility Study</button>
+			<button type="submit" class="btn"  id="AssignSR">Assign to Service Requirements</button>&nbsp;&nbsp;<button type="submit" class="btn"  id="AssignEL">Assign to Eligibility Study</button>
 		</div>
 	</div>
 	
@@ -502,22 +502,22 @@ $(".uploadFile").click(function(event){
 		
 });
 		
-$("#AssignDem").click(function(event){
+$("#AssignEL").click(function(event){
 	
 	alert("finally in Eligibility Study");
 	
 	   var demid=$('#ID').val();
 		var tpdl = $('#tpdl option:selected').val();
 		var team ="TPDL";
-		var statusID="AC";
-		var phaseID="DQ"
+		var statusID="QL";
+		var phaseID="EL"
 		
        
      
      $.ajax({
 	        async: "true",
 	        type: "POST",
-	        url: "http://localhost:8087/api/updateAssignie",
+	        url: "http://localhost:8087/api/insertToEL",
 	        data: '{ "id": \"' + demid + '\", "lastUpdatedBy": \"' + name + '\", "statusID": \"' + statusID + '\","phaseID": \"' + phaseID + '\","assignedTo": \"' + tpdl + '\","assignedTeam": \"' + team + '\"}',
 	        headers: {
 	            "Content-Type": "application/json"

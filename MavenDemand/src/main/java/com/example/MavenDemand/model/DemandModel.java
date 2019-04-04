@@ -18,8 +18,6 @@ public class DemandModel {
 	   private String createdBy;
 	   private Date lastupdatedate;
 	   private String lastUpdatedBy;
-	  
-
 	private String statusID;
 	   private String phaseID;
 		   private Date phaseStartDate;
@@ -37,6 +35,51 @@ public class DemandModel {
 			private  String StatusName;
 		   private String assignedTo;
 		   private String assignedTeam;
+		   private int SLAID;
+		   private int sla;
+		   public int getSla() {
+			return sla;
+		}
+		public void setSla(int sla) {
+			this.sla = sla;
+		}
+		public int getSLAID() {
+			return SLAID;
+		}
+		public void setSLAID(int sLAID) {
+			SLAID = sLAID;
+		}
+		public Date getSlacreatedate() {
+			return slacreatedate;
+		}
+		public void setSlacreatedate(Date date) {
+			this.slacreatedate = date;
+		}
+		public Date getPendingStrDt() {
+			return PendingStrDt;
+		}
+		public void setPendingStrDt(Date date) {
+			PendingStrDt = date;
+		}
+		public Date getPendingStpDt() {
+			return PendingStpDt;
+		}
+		public void setPendingStpDt(Date pendingStpDt) {
+			PendingStpDt = pendingStpDt;
+		}
+		public String getPhaseElapsedTime() {
+			return String.valueOf(PhaseElapsedTime);
+		}
+		public void setPhaseElapsedTime(int phaseElapsedTime) {
+			PhaseElapsedTime = phaseElapsedTime;
+		}
+
+		private Date slacreatedate;
+		   private Date PendingStrDt;
+		   private Date PendingStpDt;
+		   private int PhaseElapsedTime;
+		  
+		   
 		   public String getLastUpdatedBy() {
 				return lastUpdatedBy;
 			}

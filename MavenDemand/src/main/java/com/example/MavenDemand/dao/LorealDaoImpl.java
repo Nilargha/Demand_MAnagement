@@ -187,6 +187,104 @@ public List<DemandModel> getAllAcceptedDemands(String userID) {
 	
 }
 
+public List<DemandModel> getAllAssignedELDemands(String userID) {
+	
+	String sql="SELECT * FROM demand.demands as dem inner join demand.phase as phase on dem.PhaseID=phase.PhaseID inner join demand.status as status1 on dem.Status=status1.StatusID inner join demand.demand_sla as sla on dem.DemandID=sla.DemandID where dem.Status = 'QL' and dem.PhaseID='EL' and sla.PhaseID='EL' and dem.AssignedTo = ? and dem.AssignedTeam ='TPDL'";
+	 List<DemandModel> demList = new ArrayList<DemandModel>();
+     //List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+     List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql,new Object[] {userID});
+    // List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, args, argTypes)
+     for (Map<String, Object> row : rows) 
+     {
+    	 DemandModel dem = new DemandModel();
+    	 /*PhaseModel phasemodel=new PhaseModel();
+    	 StatusModel statusmodel=new StatusModel();*/
+    	 dem.setId((String)row.get("DemandID"));
+    	 dem.setCreateDate((Date)row.get("CreateDt"));
+    	 System.out.println((Date)row.get("CreateDt"));
+    	 dem.setCreatedBy((String)row.get("CreatedBy"));
+    	 System.out.println((String)row.get("CreatedBy"));
+    	 dem.setLastupdatedate((Date)row.get("LastUpdateDt"));
+    	 dem.setLastUpdatedBy((String)row.get("UpdatedBy"));
+    	 dem.setZoneId((String)row.get("ZoneID"));    
+    	 dem.setPhaseName((String)row.get("PhaseName")); 
+    	 dem.setEntity((String)row.get("Entity"));
+    	 dem.setProjectName((String)row.get("ProjectName"));
+    	 dem.setProjectManager((String)row.get("ProjectManager"));
+    	 dem.setTitle((String)row.get("DemandTitle"));
+    	 dem.setShortDesc((String)row.get("DemandShrDesc"));
+    	dem.setStatusName((String)row.get("StatusName"));
+    	dem.setLongDesc((String)row.get("DemandLngDesc"));
+    	 dem.setDemandType((String)row.get("DemandType"));
+    	 dem.setManagedServiceRequired((String)row.get("MngdServReqd"));
+    	 dem.setDeliveryDate((Date)row.get("DeliveryDt"));
+    	 dem.setGoLiveDate((Date)row.get("GoLiveDt"));
+    	 dem.setAssignedTo((String)row.get("AssignedTo"));
+    	 dem.setAssignedTeam((String)row.get("AssignedTeam"));
+    	 dem.setPhaseStartDate((Date)row.get("PhaseStartDt"));
+    	 dem.setSLAID((int)row.get("SLAID"));
+    	 dem.setSlacreatedate((Date)row.get("SLACreateDt"));
+    	 dem.setPendingStrDt((Date)row.get("PendingStrDt"));
+    	 dem.setPendingStpDt((Date)row.get("PendingStpDt"));
+    	 dem.setPhaseElapsedTime((int)row.get("PhaseElapsedTime"));
+    	 demList.add(dem);
+      }
+
+         return demList;
+	
+	
+}
+
+
+public List<DemandModel> getAllELDemandsForCCOE() {
+	
+	String sql="SELECT * FROM demand.demands as dem inner join demand.phase as phase on dem.PhaseID=phase.PhaseID inner join demand.status as status1 on dem.Status=status1.StatusID inner join demand.demand_sla as sla on dem.DemandID=sla.DemandID where dem.Status = 'QL' and dem.PhaseID='EL' and sla.PhaseID='EL'";
+	 List<DemandModel> demList = new ArrayList<DemandModel>();
+     //List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+     List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+    // List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, args, argTypes)
+     for (Map<String, Object> row : rows) 
+     {
+    	 DemandModel dem = new DemandModel();
+    	 /*PhaseModel phasemodel=new PhaseModel();
+    	 StatusModel statusmodel=new StatusModel();*/
+    	 dem.setId((String)row.get("DemandID"));
+    	 dem.setCreateDate((Date)row.get("CreateDt"));
+    	 System.out.println((Date)row.get("CreateDt"));
+    	 dem.setCreatedBy((String)row.get("CreatedBy"));
+    	 System.out.println((String)row.get("CreatedBy"));
+    	 dem.setLastupdatedate((Date)row.get("LastUpdateDt"));
+    	 dem.setLastUpdatedBy((String)row.get("UpdatedBy"));
+    	 dem.setZoneId((String)row.get("ZoneID"));    
+    	 dem.setPhaseName((String)row.get("PhaseName")); 
+    	 dem.setEntity((String)row.get("Entity"));
+    	 dem.setProjectName((String)row.get("ProjectName"));
+    	 dem.setProjectManager((String)row.get("ProjectManager"));
+    	 dem.setTitle((String)row.get("DemandTitle"));
+    	 dem.setShortDesc((String)row.get("DemandShrDesc"));
+    	dem.setStatusName((String)row.get("StatusName"));
+    	dem.setLongDesc((String)row.get("DemandLngDesc"));
+    	 dem.setDemandType((String)row.get("DemandType"));
+    	 dem.setManagedServiceRequired((String)row.get("MngdServReqd"));
+    	 dem.setDeliveryDate((Date)row.get("DeliveryDt"));
+    	 dem.setGoLiveDate((Date)row.get("GoLiveDt"));
+    	 dem.setAssignedTo((String)row.get("AssignedTo"));
+    	 dem.setAssignedTeam((String)row.get("AssignedTeam"));
+    	 dem.setPhaseStartDate((Date)row.get("PhaseStartDt"));
+    	 dem.setSLAID((int)row.get("SLAID"));
+    	 dem.setSlacreatedate((Date)row.get("SLACreateDt"));
+    	 dem.setPendingStrDt((Date)row.get("PendingStrDt"));
+    	 dem.setPendingStpDt((Date)row.get("PendingStpDt"));
+    	 dem.setPhaseElapsedTime((int)row.get("PhaseElapsedTime"));
+    	 demList.add(dem);
+      }
+
+         return demList;
+	
+	
+}
+
+
 
 public List<Worknotes> getAllWorknotes(String DemandID) {
 	
@@ -301,6 +399,8 @@ public List<DemandModel> getAllAcceptedDemandsforCCOE() {
 	
 }
 
+
+
 public List<DemandModel> getAllApprovedDemandsForApprover() {
 	
 	String sql="SELECT * FROM loreal.demands where status='Approved'";
@@ -414,6 +514,33 @@ public int updateDemWithAssgnie(String demid,String status,String phaseid,String
 
 }
 
+public int updateDemToEL(String demid,String status,String phaseid,String assignedto,String updatedby,Date lastupdatedate,String assignedteam) {
+
+	String sql = "UPDATE demand.demands set Status='"+status+"',PhaseID='"+phaseid+"',AssignedTo='"+assignedto+"',AssignedTeam='"+assignedteam+"',LastUpdateDt='"+lastupdatedate+"',UpdatedBy='"+updatedby+"' where DemandID='"+demid+"'";
+
+	//jdbcTemplate.queryForObject(sql, new Object[] {id},String.class);
+	jdbcTemplate.update(sql);
+	String sql2="INSERT INTO demand.demand_sla (`SLAID`, `PhaseID`, `DemandID`, `SLACreateDt`, `PendingStrDt`, `PendingStpDt` , `PhaseElapsedTime`) values (?,?,?,?,?,?,?)";
+	Object[] params = new Object[] {0,phaseid,demid,lastupdatedate,null,null,0};
+	 int row =  jdbcTemplate.update(sql2,params);
+	return 1;
+
+}
+
+
+public int updateDemToISR(String demid,String status,String phaseid,String assignedto,String updatedby,Date lastupdatedate,String assignedteam) {
+
+	String sql = "UPDATE demand.demands set Status='"+status+"',PhaseID='"+phaseid+"',AssignedTo='"+assignedto+"',AssignedTeam='"+assignedteam+"',LastUpdateDt='"+lastupdatedate+"',UpdatedBy='"+updatedby+"' where DemandID='"+demid+"'";
+
+	//jdbcTemplate.queryForObject(sql, new Object[] {id},String.class);
+	jdbcTemplate.update(sql);
+	String sql2="INSERT INTO demand.demand_sla (`SLAID`, `PhaseID`, `DemandID`, `SLACreateDt`, `PendingStrDt`, `PendingStpDt` , `PhaseElapsedTime`) values (?,?,?,?,?,?,?)";
+	Object[] params = new Object[] {0,phaseid,demid,lastupdatedate,null,null,0};
+	 int row =  jdbcTemplate.update(sql2,params);
+	return 1;
+
+}
+
 public Integer updateDemand(String id,String title ,String desc){
 	
 	String sql = "UPDATE `loreal`.`demands` set DemandTitle='"+title+"',DemandDesc='"+desc+"' where idDemands='"+id+"'";
@@ -454,6 +581,45 @@ public List<DemandModel> getUpdateFields(String idDem) {
 	
 	
 }
+
+public int updateSLAPendingStart(String idDem,String username,Date date) {
+	
+	String sql2="Select SLACreateDt from demand.demand_sla where DemandID='"+idDem+"' and PhaseID = 'EL'";
+	Date date1=jdbcTemplate.queryForObject(sql2,Date.class);
+	
+	java.util.Date utilDate = new java.util.Date(date.getTime());
+	java.util.Date utilDate1 = new java.util.Date(date1.getTime());
+	
+	long sal = utilDate.getTime() - utilDate1.getTime();
+	long days =  sal / (24 * 60 * 60 * 1000);
+	int elapsedTime = (int) days;
+	String sql = "UPDATE `demand`.`demand_sla` set PendingStrDt='"+date+"' , PhaseElapsedTime='"+elapsedTime+"' where DemandID='"+idDem+"'";
+	int row =  jdbcTemplate.update(sql);
+	 String sql1="UPDATE `demand`.`demands` set UpdatedBy='"+username+"' where DemandID='"+idDem+"'";
+	 int row1 =  jdbcTemplate.update(sql1);
+	return row1;
+}
+
+
+
+public int updateSLAPendingStartforISR(String idDem,String username,Date date) {
+	
+	String sql2="Select SLACreateDt from demand.demand_sla where DemandID='"+idDem+"' and PhaseID = 'ISR'";
+	Date date1=jdbcTemplate.queryForObject(sql2,Date.class);
+	
+	java.util.Date utilDate = new java.util.Date(date.getTime());
+	java.util.Date utilDate1 = new java.util.Date(date1.getTime());
+	
+	long sal = utilDate.getTime() - utilDate1.getTime();
+	long days =  sal / (24 * 60 * 60 * 1000);
+	int elapsedTime = (int) days;
+	String sql = "UPDATE `demand`.`demand_sla` set PendingStrDt='"+date+"' , PhaseElapsedTime='"+elapsedTime+"' where DemandID='"+idDem+"'";
+	int row =  jdbcTemplate.update(sql);
+	 String sql1="UPDATE `demand`.`demands` set UpdatedBy='"+username+"' where DemandID='"+idDem+"'";
+	 int row1 =  jdbcTemplate.update(sql1);
+	return 1;
+}
+
 
 public List<ZoneModel> getAllZones() {
 	

@@ -9,8 +9,11 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -154,6 +157,66 @@ public class TestController {
     	 return new ResponseEntity<>(new ResponseModel("Not Done"),HttpStatus.BAD_REQUEST);
     }
     
+    @RequestMapping( path =BASE_URL+"/updateslapendingstart", method = RequestMethod.POST )
+    public Object slapendingstart(@RequestBody DemandModel dem ,HttpServletResponse response){
+		
+    	
+		Date date=Date.valueOf(new SimpleDateFormatter().format());
+		if(lorealdao.updateSLAPendingStart(dem.getId(), dem.getLastUpdatedBy(), date) !=0){
+			
+			return new ResponseEntity<>(new ResponseModel("Success"),HttpStatus.OK);
+    	}
+    	
+    	 return new ResponseEntity<>(new ResponseModel("Not Done"),HttpStatus.BAD_REQUEST);
+    }
+    
+    
+    
+    @RequestMapping( path =BASE_URL+"/updateslapendingstartISR", method = RequestMethod.POST )
+    public Object slapendingstartISR(@RequestBody DemandModel dem ,HttpServletResponse response){
+		
+    	
+		Date date=Date.valueOf(new SimpleDateFormatter().format());
+		if(lorealdao.updateSLAPendingStartforISR(dem.getId(), dem.getLastUpdatedBy(), date) !=0){
+			
+			return new ResponseEntity<>(new ResponseModel("Success"),HttpStatus.OK);
+    	}
+    	
+    	 return new ResponseEntity<>(new ResponseModel("Not Done"),HttpStatus.BAD_REQUEST);
+    }
+    
+    
+    @RequestMapping( path =BASE_URL+"/insertToEL", method = RequestMethod.POST )
+    public Object insertingEL(@RequestBody DemandModel dem ,HttpServletResponse response){
+		
+    	
+		Date date=Date.valueOf(new SimpleDateFormatter().format());
+		if(lorealdao.updateDemToISR(dem.getId(), dem.getStatusID(), dem.getPhaseID(), dem.getAssignedTo(), dem.getLastUpdatedBy(), date, dem.getAssignedTeam()) !=0){
+			
+			return new ResponseEntity<>(new ResponseModel("Success"),HttpStatus.OK);
+    	}
+    	
+    	 return new ResponseEntity<>(new ResponseModel("Not Done"),HttpStatus.BAD_REQUEST);
+        
+		
+    }
+    
+    @RequestMapping( path =BASE_URL+"/insertToISR", method = RequestMethod.POST )
+    public Object insertingISR(@RequestBody DemandModel dem ,HttpServletResponse response){
+		
+    	
+		Date date=Date.valueOf(new SimpleDateFormatter().format());
+		if(lorealdao.updateDemToEL(dem.getId(), dem.getStatusID(), dem.getPhaseID(), dem.getAssignedTo(), dem.getLastUpdatedBy(), date, dem.getAssignedTeam()) !=0){
+			
+			return new ResponseEntity<>(new ResponseModel("Success"),HttpStatus.OK);
+    	}
+    	
+    	 return new ResponseEntity<>(new ResponseModel("Not Done"),HttpStatus.BAD_REQUEST);
+        
+		
+    }
+    
+    
     
     @RequestMapping( path =BASE_URL+"/ShowMyDemands", method = RequestMethod.GET )
     public Object showDemand(@RequestParam("UserID") String UserID)  {
@@ -212,6 +275,265 @@ public class TestController {
 	    temp.add(c.getProjectName());
 	    
 	    temp.add(c.getDemandType());
+		res.getData().add(temp);
+		}
+		return res;
+    }
+    
+    @RequestMapping( path =BASE_URL+"/ShowAllAssignedELDemands", method = RequestMethod.GET )
+    public Object showAllAssELDemand(@RequestParam("UserID") String UserID) throws ParseException  {
+    	//Date d = new Date();
+    	int sla;
+    	
+    	Calendar p = Calendar.getInstance();    
+    	//Calendar q = Calendar.getInstance();    
+    	//p.add(Calendar.DATE, 5);
+    	
+    	
+    	
+    	
+    	
+    	List<DemandModel> cred = lorealdao.getAllAssignedELDemands(UserID);
+		ResponseModel res=new ResponseModel();
+		for(DemandModel c: cred){
+		List<String> temp=new ArrayList<>();
+		temp.add(c.getId());
+		temp.add(c.getTitle());
+		temp.add(c.getShortDesc());
+		temp.add(c.getStatusName());
+		temp.add(c.getZoneId());
+		temp.add(c.getPhaseName());
+		String date=(c.getCreateDate()).toString();
+		temp.add(date);
+		temp.add(c.getCreatedBy());
+	    temp.add(c.getDemandType());
+	    temp.add(c.getEntity());
+	    temp.add(c.getLastUpdatedBy());
+	    String date1=(c.getLastupdatedate()).toString();
+	    temp.add(date1);
+	    temp.add(c.getLongDesc());
+	    temp.add(c.getManagedServiceRequired());
+	    temp.add(c.getProjectManager());
+	    temp.add(c.getProjectName());
+	    
+	    
+	    temp.add(c.getDemandType());
+	    if(c.getPendingStrDt()==null)
+	    {
+	    	java.util.Date utilDate = new java.util.Date(c.getSlacreatedate().getTime());
+	    	
+	    	/*System.out.println(String.valueOf(c.getSlacreatedate()));
+	    	
+	    	
+	    	java.util.Date utilDate = new SimpleDateFormat("dd-MM-yyyy").parse(String.valueOf(c.getSlacreatedate()));  
+	    	*/
+	    	
+	    	System.out.println(utilDate);
+	    	
+	    	Date date2 =Date.valueOf(new SimpleDateFormatter().format());
+	    	
+	    	java.util.Date d = new java.util.Date();
+	    	java.util.Date e = new java.util.Date(date2.getTime());
+	    	
+	    	
+	    	System.out.println(e);
+	    	
+	    	p.setTime(utilDate);
+	    	
+	    	p.add(Calendar.DATE,4);
+	    	
+	    	d = p.getTime();
+	    	
+	    	System.out.println(d);
+	    	
+	    long sal = d.getTime() - e.getTime();
+	    
+	    
+		System.out.println(sal);
+		
+		long days =  sal / (24 * 60 * 60 * 1000);
+		
+		 System.out.println(days);
+	    
+	    c.setSla((int)days);
+	    
+	    System.out.println((int) days);
+	    
+	    temp.add(String.valueOf(c.getSla()));
+	    	
+	    }
+	    else
+	    {
+java.util.Date utilDate = new java.util.Date(c.getSlacreatedate().getTime());
+java.util.Date pendingdt = new java.util.Date(c.getPendingStrDt().getTime());	    	
+	    	/*System.out.println(String.valueOf(c.getSlacreatedate()));
+	    	
+	    	
+	    	java.util.Date utilDate = new SimpleDateFormat("dd-MM-yyyy").parse(String.valueOf(c.getSlacreatedate()));  
+	    	*/
+	    	
+	    	System.out.println(utilDate);
+	    	
+	    	java.util.Date d = new java.util.Date();
+	    	
+	    	
+	    	
+	    	System.out.println(pendingdt);
+	    	
+	    	p.setTime(utilDate);
+	    	
+	    	p.add(Calendar.DATE,4);
+	    	
+	    	d = p.getTime();
+	    	
+	    	System.out.println(d);
+	    	
+	    long sal = d.getTime() - pendingdt.getTime();
+	    
+	    
+		System.out.println(sal);
+		
+		long days =  sal / (24 * 60 * 60 * 1000);
+		
+		 System.out.println(days);
+	    
+	    c.setSla((int)days);
+	    
+	    System.out.println((int) days);
+	    
+	    temp.add(String.valueOf(c.getSla()));
+	    }
+	    
+		res.getData().add(temp);
+		}
+		return res;
+    }
+    
+    
+    @RequestMapping( path =BASE_URL+"/ShowAllELDemandsforCCOE", method = RequestMethod.GET )
+    public Object showAllELDemandforCCOE() throws ParseException  {
+    	//Date d = new Date();
+    	int sla;
+    	
+    	Calendar p = Calendar.getInstance();    
+    	//Calendar q = Calendar.getInstance();    
+    	//p.add(Calendar.DATE, 5);
+    	
+    	
+    	
+    	
+    	
+    	List<DemandModel> cred = lorealdao.getAllELDemandsForCCOE();
+		ResponseModel res=new ResponseModel();
+		for(DemandModel c: cred){
+		List<String> temp=new ArrayList<>();
+		temp.add(c.getId());
+		temp.add(c.getTitle());
+		temp.add(c.getShortDesc());
+		temp.add(c.getStatusName());
+		temp.add(c.getZoneId());
+		temp.add(c.getPhaseName());
+		String date=(c.getCreateDate()).toString();
+		temp.add(date);
+		temp.add(c.getCreatedBy());
+	    temp.add(c.getDemandType());
+	    temp.add(c.getEntity());
+	    temp.add(c.getLastUpdatedBy());
+	    String date1=(c.getLastupdatedate()).toString();
+	    temp.add(date1);
+	    temp.add(c.getLongDesc());
+	    temp.add(c.getManagedServiceRequired());
+	    temp.add(c.getProjectManager());
+	    temp.add(c.getProjectName());
+	    
+	    
+	    temp.add(c.getDemandType());
+	    if(c.getPendingStrDt()==null)
+	    {
+	    	java.util.Date utilDate = new java.util.Date(c.getSlacreatedate().getTime());
+	    	
+	    	/*System.out.println(String.valueOf(c.getSlacreatedate()));
+	    	
+	    	
+	    	java.util.Date utilDate = new SimpleDateFormat("dd-MM-yyyy").parse(String.valueOf(c.getSlacreatedate()));  
+	    	*/
+	    	
+	    	System.out.println(utilDate);
+	    	
+	    	Date date2 =Date.valueOf(new SimpleDateFormatter().format());
+	    	
+	    	java.util.Date d = new java.util.Date();
+	    	java.util.Date e = new java.util.Date(date2.getTime());
+	    	
+	    	
+	    	System.out.println(e);
+	    	
+	    	p.setTime(utilDate);
+	    	
+	    	p.add(Calendar.DATE,4);
+	    	
+	    	d = p.getTime();
+	    	
+	    	System.out.println(d);
+	    	
+	    long sal = d.getTime() - e.getTime();
+	    
+	    
+		System.out.println(sal);
+		
+		long days =  sal / (24 * 60 * 60 * 1000);
+		
+		 System.out.println(days);
+	    
+	    c.setSla((int)days);
+	    
+	    System.out.println((int) days);
+	    
+	    temp.add(String.valueOf(c.getSla()));
+	    	
+	    }
+	    else
+	    {
+java.util.Date utilDate = new java.util.Date(c.getSlacreatedate().getTime());
+java.util.Date pendingdt = new java.util.Date(c.getPendingStrDt().getTime());	    	
+	    	/*System.out.println(String.valueOf(c.getSlacreatedate()));
+	    	
+	    	
+	    	java.util.Date utilDate = new SimpleDateFormat("dd-MM-yyyy").parse(String.valueOf(c.getSlacreatedate()));  
+	    	*/
+	    	
+	    	System.out.println(utilDate);
+	    	
+	    	java.util.Date d = new java.util.Date();
+	    	
+	    	
+	    	
+	    	System.out.println(pendingdt);
+	    	
+	    	p.setTime(utilDate);
+	    	
+	    	p.add(Calendar.DATE,4);
+	    	
+	    	d = p.getTime();
+	    	
+	    	System.out.println(d);
+	    	
+	    long sal = d.getTime() - pendingdt.getTime();
+	    
+	    
+		System.out.println(sal);
+		
+		long days =  sal / (24 * 60 * 60 * 1000);
+		
+		 System.out.println(days);
+	    
+	    c.setSla((int)days);
+	    
+	    System.out.println((int) days);
+	    
+	    temp.add(String.valueOf(c.getSla()));
+	    }
+	    
 		res.getData().add(temp);
 		}
 		return res;

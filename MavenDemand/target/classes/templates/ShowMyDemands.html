@@ -88,6 +88,50 @@
 
 		</div>
 	</div>
+	  <div class="modalFiles">
+		<div class="modalFiles-content">
+			<div class="modalFiles-header">
+				<span class="closeFiles-button">&times;</span>
+				<h2>View Files</h2>
+			</div>
+			<div class="search-container">
+				
+				
+				<table class="display nowrap" id="table1"   style="width:100%">
+					<thead class ="table-dark">
+					
+						<tr>
+							<th>DEMAND ID</th>
+							<th>TITLE</th>
+							<th>DESCRIPTION</th>
+							<th>STATUS</th>
+							<th>ZONE</th>
+							<th>PHASE</th>
+							<th></th>
+							
+							
+							
+						</tr>
+					</thead>
+
+					<tfoot >
+						<tr>
+							<th>DEMAND ID</th>
+							<th>TITLE</th>
+							<th>DESCRIPTION</th>
+							<th>STATUS</th>
+							<th>ZONE</th>
+							<th>PHASE</th>
+							<th></th>
+							
+						</tr>
+					</tfoot>
+					</table>
+			</div>
+
+
+		</div>
+	</div>
 					
 			
 		
@@ -115,11 +159,18 @@
 		//<![CDATA[
 			
 			var modalNotes = document.querySelector(".modalNotes");
+			var modalFiles = document.querySelector(".modalFiles");
 			var closeNotesButton = document.querySelector(".closeNotes-button");
+			var closeFilesButton = document.querySelector(".closeFiles-button");
 			
 			
 			function toggleModalNotes() {
 				modalNotes.classList.toggle("show-modalNotes");
+				//modal.style.display = "none";
+				//var a = 1;
+				}
+			function toggleModalFiles() {
+				modalFiles.classList.toggle("show-modalFiles");
 				//modal.style.display = "none";
 				//var a = 1;
 				}
@@ -129,16 +180,17 @@
 				    toggleModalNotes();
 				}
 				
-				/*else if (event.target === modalEdit)
+				else if (event.target === modalFiles)
 				{
-				toggleModalEdit();
-				}*/
+				toggleModalFiles();
+				}
 
 
 
 				}
 			
 			closeNotesButton.addEventListener("click", toggleModalNotes);
+			closeFilesButton.addEventListener("click", toggleModalFiles);
 			window.addEventListener("click", windowOnClick);
 			
 		
@@ -266,11 +318,59 @@
 	   	//var iddem = d.data();
 	    //alert(iddem['DEMAND ID']);
 	    	 	$('#demid').val(data[0]);
+	    	 	
 	   toggleModalNotes(); 
 
     
      
    } );
+   
+ $('#table tbody').on('click', '.btn-files', function () {
+	   
+	   var tr = $(this).closest('tr').parents('tr');
+	   var prevtr = tr.prev('tr')[0];
+	   var data = table.row(prevtr).data();
+	    
+	  //alert('seeing data   '+ data);
+	 // alert('seeing data   '+ data[0]);
+	   	//var iddem = d.data();
+	    //alert(iddem['DEMAND ID']);
+	    	 	//$('#demid').val(data[0]);
+	    	 	
+	    	 
+	   toggleModalFiles(); 
+
+    
+     
+   } );
+   
+   
+	
+	 var table1 =  $('#table1').DataTable( {
+dom: 'Bfrtip',
+ajax: {
+"type"   : "GET",
+"url"    : 'http://localhost:8087/api/ShowMyDemands',
+"data"   : {
+UserID : name
+}
+
+
+
+},
+
+buttons: [
+'copy', 'csv', 'excel', 'pdf', 'print'
+],
+columnDefs : [ {
+"className":  'details-control',
+"targets": -1,
+"data": null,
+
+"defaultContent": "<button class='btn-worknote' >show worknotes</button>&nbsp;<button class='btn-details'>show Details</button>"
+} ]
+
+} );
     
     
 } );
@@ -366,7 +466,7 @@
 '<tr>'+
 '<td>Add Work Notes</td>'+
 '<td></td>'+'&nbsp;'+
-'<td><button class="btn-post">POST COMMENT</button></td>'+
+'<td><button class="btn-post">POST COMMENT</button></td>&nbsp;'+'<td><button class="btn-files">Show Documents</button></td>'+
 '</tr>'+
 		    '</table>';
 		}
