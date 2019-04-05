@@ -33,6 +33,7 @@
 							<th>STATUS</th>
 							<th>ZONE</th>
 							<th>PHASE</th>
+							<th>SLA in Days</th>
 							<th></th>
 							
 							
@@ -48,6 +49,7 @@
 							<th>STATUS</th>
 							<th>ZONE</th>
 							<th>PHASE</th>
+							<th>SLA in Days</th>
 							<th></th>
 							
 						</tr>
@@ -74,11 +76,11 @@
 				<span class="closeAssign-button">&times;</span>
 				<h2>Assign Demand</h2>
 			</div>
-				<input type="text" id="ID" placeholder="" />
+				<input type="text" class ="modalTitle" id="ID" placeholder="" />
 				<select name="zone" class="modalTitle" id="tpdl"><option>Select TPDL USER</option></select>
 				
 			<br />
-			<button type="submit" class="btn"  id="AssignSR">Assign to Service Requirements</button>&nbsp;&nbsp;<button type="submit" class="btn"  id="AssignEL">Assign to Eligibility Study</button>
+			<button type="submit" class="btn"  id="AssignSR">Assign to Service Requirements</button>
 		</div>
 	</div>
 	
@@ -174,6 +176,9 @@
 				{
 				toggleModalUpload();
 				}
+				else if (event.target === modalAssign) {
+				    toggleModalAssign();
+				}
 
 
 
@@ -207,6 +212,16 @@
             "url"    : 'http://localhost:8087/api/ShowAllELDemandsforCCOE',
             "data"   : null
             
+          },
+          "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+              if ( aData[6] < "5" )
+              {
+                  $('td', nRow).css('background-color', 'Red');
+              }
+              else if ( aData[6] > "5" )
+              {
+                  $('td', nRow).css('background-color', 'Orange');
+              }
           },
        
         buttons: [
@@ -502,7 +517,7 @@ $(".uploadFile").click(function(event){
 		
 });
 		
-$("#AssignEL").click(function(event){
+/* $("#AssignEL").click(function(event){
 	
 	alert("finally in Eligibility Study");
 	
@@ -535,41 +550,42 @@ $("#AssignEL").click(function(event){
 	            
 	        }
 	        }); 
-});
+}); */
 
-$("#AssignDem").click(function(event){
+$("#AssignSR").click(function(event){
 	
 	alert("finally in Service Requirements");
 	
 	   var demid=$('#ID').val();
 		var tpdl = $('#tpdl option:selected').val();
 		var team ="TPDL";
-		var statusID="AC";
-		var phaseID="DQ"
+		var statusID="ESQ";
+		var phaseID="ISR"
 		
        
      
-     $.ajax({
-	        async: "true",
-	        type: "POST",
-	        url: "http://localhost:8087/api/updateAssignie",
-	        data: '{ "id": \"' + demid + '\", "lastUpdatedBy": \"' + name + '\", "statusID": \"' + statusID + '\","phaseID": \"' + phaseID + '\","assignedTo": \"' + tpdl + '\","assignedTeam": \"' + team + '\"}',
-	        headers: {
-	            "Content-Type": "application/json"
-	        }, 
-	        success: function (data) {
-	        	//window.location.replace("/dashboard");
-	        	alert(" Assigned successfully.");
-	        	
-	        	window.location.replace("/ccoedqdemands");
-	        
-	        },
-	        error: function (data) {
-	            
-	                alert(data["responseJSON"]["message"]);
-	            
-	        }
-	        }); 
+			  $.ajax({
+			        async: "true",
+			        type: "POST",
+			        url: "http://localhost:8087/api/insertToISR",
+			        data: '{ "id": \"' + demid + '\", "lastUpdatedBy": \"' + name + '\", "statusID": \"' + statusID + '\","phaseID": \"' + phaseID + '\","assignedTo": \"' + tpdl + '\","assignedTeam": \"' + team + '\"}',
+			        headers: {
+			            "Content-Type": "application/json"
+			        }, 
+			        success: function (data) {
+			        	//window.location.replace("/dashboard");
+			        	alert(" Assigned successfully.");
+			        	
+			        	window.location.replace("/ccoedqdemands");
+			        
+			        },
+			        error: function (data) {
+			            
+			                alert(data["responseJSON"]["message"]);
+			            
+			        }
+			        }); 
+
 });
 		
 function appendToStream(stream, str, index) {
@@ -680,17 +696,17 @@ function uploadfunction(id,newfile){
 			
 			}
 		
-		function windowOnClick(event) {
+		/* function windowOnClick(event) {
 			if (event.target === modalAssign) {
 			    toggleModalAssign();
 			}
 
 
 			}
-		
+		 */
 		closeAssignButton.addEventListener("click", toggleModalAssign);
 		//closeEditButton.addEventListener("click", toggleModalEdit);
-		window.addEventListener("click", windowOnClick);
+		//window.addEventListener("click", windowOnClick);
 
 		//]]>
 		</script>

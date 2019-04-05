@@ -75,11 +75,22 @@ function checkLogin()
 		        		{
 		        		window.location.replace("/approverdashboard");
 		        		}
+		        	else if(data == "4")
+	        		{
+		        		alert("am in 4 ");
+	        		window.location.replace("/tpdldasboard");
+	        		}
+		        	else
+		        		{
+		        		 window.location.replace("/login");
+		        		}
 		        	
 		        	
 		        },
 		        error: function (data) {
-		            
+		        	
+		        	
+		        	 window.location.replace("/login");
 		                $("#serverContent").html(data["responseJSON"]["message"]);
 		            
 		        }});
@@ -87,5 +98,5 @@ function checkLogin()
 
 			
 			}
-	
+		
 	}

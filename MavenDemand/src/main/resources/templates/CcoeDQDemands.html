@@ -175,6 +175,10 @@
 				toggleModalUpload();
 				}
 
+				else if (event.target === modalAssign) {
+				    toggleModalAssign();
+				}
+
 
 
 				}
@@ -679,7 +683,7 @@ function uploadfunction(id,newfile){
 			modalAssign.classList.toggle("show-modalAssign");
 			
 			}
-		
+/* 		
 		function windowOnClick(event) {
 			if (event.target === modalAssign) {
 			    toggleModalAssign();
@@ -687,10 +691,10 @@ function uploadfunction(id,newfile){
 
 
 			}
-		
+ */		
 		closeAssignButton.addEventListener("click", toggleModalAssign);
 		//closeEditButton.addEventListener("click", toggleModalEdit);
-		window.addEventListener("click", windowOnClick);
+	//	window.addEventListener("click", windowOnClick);
 
 		//]]>
 		</script>

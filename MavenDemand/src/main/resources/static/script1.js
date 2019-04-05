@@ -62,7 +62,11 @@ function validate() {
 	            "Content-Type": "application/json"
 	        }, 
 	        success: function (data) {
-	        	document.cookie = "name="+data;
+	        	 var now = new Date();
+	        	  var time = now.getTime();
+	        	  var expireTime = time + (60*60*1000);
+	        	  now.setTime(expireTime);
+	        	document.cookie = "name="+data+";"+" expires=" + now.toGMTString() + ";"+" path=/";
 	        	//window.location.replace("/dashboard");
 	        	roleNavigate(data); 
 	        	//alert("the user name is  "+ data);

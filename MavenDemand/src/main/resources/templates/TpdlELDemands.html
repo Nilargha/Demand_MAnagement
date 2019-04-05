@@ -199,6 +199,16 @@
             
             
           },
+          "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+              if ( aData[6] < "5" )
+              {
+                  $('td', nRow).css('background-color', 'Red');
+              }
+              else if ( aData[6] > "5" )
+              {
+                  $('td', nRow).css('background-color', 'Orange');
+              }
+          },
        
         buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'

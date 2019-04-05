@@ -435,22 +435,7 @@ java.util.Date pendingdt = new java.util.Date(c.getPendingStrDt().getTime());
 		temp.add(c.getStatusName());
 		temp.add(c.getZoneId());
 		temp.add(c.getPhaseName());
-		String date=(c.getCreateDate()).toString();
-		temp.add(date);
-		temp.add(c.getCreatedBy());
-	    temp.add(c.getDemandType());
-	    temp.add(c.getEntity());
-	    temp.add(c.getLastUpdatedBy());
-	    String date1=(c.getLastupdatedate()).toString();
-	    temp.add(date1);
-	    temp.add(c.getLongDesc());
-	    temp.add(c.getManagedServiceRequired());
-	    temp.add(c.getProjectManager());
-	    temp.add(c.getProjectName());
-	    
-	    
-	    temp.add(c.getDemandType());
-	    if(c.getPendingStrDt()==null)
+		if(c.getPendingStrDt()==null)
 	    {
 	    	java.util.Date utilDate = new java.util.Date(c.getSlacreatedate().getTime());
 	    	
@@ -535,6 +520,22 @@ java.util.Date pendingdt = new java.util.Date(c.getPendingStrDt().getTime());
 	    
 	    temp.add(String.valueOf(c.getSla()));
 	    }
+		String date=(c.getCreateDate()).toString();
+		temp.add(date);
+		temp.add(c.getCreatedBy());
+	    temp.add(c.getDemandType());
+	    temp.add(c.getEntity());
+	    temp.add(c.getLastUpdatedBy());
+	    String date1=(c.getLastupdatedate()).toString();
+	    temp.add(date1);
+	    temp.add(c.getLongDesc());
+	    temp.add(c.getManagedServiceRequired());
+	    temp.add(c.getProjectManager());
+	    temp.add(c.getProjectName());
+	    
+	    
+	    temp.add(c.getDemandType());
+	    
 	    
 		res.getData().add(temp);
 		}
@@ -601,6 +602,10 @@ java.util.Date pendingdt = new java.util.Date(c.getPendingStrDt().getTime());
 		List<String> temp=new ArrayList<>();
 		temp.add(c.getId());
 		temp.add(c.getTitle());
+		temp.add(c.getShortDesc());
+		temp.add(c.getStatusName());
+		temp.add(c.getZoneId());
+		temp.add(c.getPhaseName());
 		temp.add(c.getAssignedTeam());
 		temp.add(c.getAssignedTo());
 	    temp.add(c.getDemandType());
@@ -610,9 +615,9 @@ java.util.Date pendingdt = new java.util.Date(c.getPendingStrDt().getTime());
 	    temp.add(c.getManagedServiceRequired());
 	    temp.add(c.getProjectManager());
 	    temp.add(c.getProjectName());
-	    temp.add(c.getShortDesc());
+	    
 	    temp.add(c.getStatusID());
-	    temp.add(c.getZoneId());
+	    
 	    temp.add(c.getDemandType());
 		res.getData().add(temp);
 		}
