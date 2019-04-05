@@ -27,8 +27,8 @@
 <div id="mySidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
   <a  href="#">Profile</a>
-  <a onclick="approvalWorkflow()">Demands for Qualification</a>
-  <a onclick="approvedWorkflow()" >Approved Workflows</a>
+  <a onclick="qualificationWorkflow()">Demands for Qualification</a>
+  <a onclick="elWorkflow()" >Demands for Eligibility Study</a>
   <a onclick= "deleteCookie()" >Logout</a>
   
 </div>
@@ -46,13 +46,13 @@ function closeNav() {
   document.getElementById("mySidenav").style.width = "0";
 }
 
-function approvalWorkflow(){
+function qualificationWorkflow(){
 	
 	window.location.replace("/tpdldqdemands");
 }
-function approvedWorkflow(){
+function elWorkflow(){
 	
-	window.location.replace("/demandapproved");
+	window.location.replace("/tpdleldemands");
 }
 
 //]]>

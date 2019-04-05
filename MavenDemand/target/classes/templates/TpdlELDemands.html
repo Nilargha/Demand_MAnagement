@@ -35,6 +35,7 @@
 							<th>STATUS</th>
 							<th>ZONE</th>
 							<th>PHASE</th>
+							<th>SLA Days Left</th>
 							<th></th>
 							
 							
@@ -50,6 +51,7 @@
 							<th>STATUS</th>
 							<th>ZONE</th>
 							<th>PHASE</th>
+							<th>SLA Days Left</th>
 							<th></th>
 							
 						</tr>
@@ -189,7 +191,7 @@
         dom: 'Bfrtip',
         ajax: {
             "type"   : "GET",
-            "url"    : 'http://localhost:8087/api/ShowAcceptedDemands',
+            "url"    : 'http://localhost:8087/api/ShowAllAssignedELDemands',
             "data"   : {
                 UserID : name
             }
@@ -206,13 +208,17 @@
             "targets": -1,
             "data": null,
              
-            "defaultContent": "<button class='btn-worknote' >show worknotes</button>&nbsp;<button class='btn-details'>show Details</button>"
+            "defaultContent": "<button class='btn-details'>show Details</button>"
         } ]
         
     } );
     
    $('#table tbody').on('click','.btn-worknote',function (){
-	   var data = table.row( $(this).parents('tr')).data();
+	 //  var data = table.row( $(this).parents('tr')).data();
+	 
+	   var tr = $(this).closest('tr').parents('tr');
+	   var prevtr = tr.prev('tr')[0];
+	   var data = table.row(prevtr).data();
    	var iddem = data[0].toString();
    	
    	//alert(data[0]+ " intoString approve");
@@ -315,6 +321,45 @@
      
       
     } );
+   
+ $('#table tbody').on('click', '.btn-pending', function () {
+ 	   
+ 	   var tr = $(this).closest('tr').parents('tr');
+ 	   var prevtr = tr.prev('tr')[0];
+ 	   var data = table.row(prevtr).data();
+ 	  var iddem = data[0].toString();
+ 	   
+ 	  //alert('seeing data   '+ data);
+ 	 // alert('seeing data   '+ data[0]);
+ 	   	//var iddem = d.data();
+ 	    //alert(iddem['DEMAND ID']);
+ 	  $.ajax({
+	        async: "true",
+	        type: "POST",
+	        url: "http://localhost:8087/api/updateslapendingstart",
+	        data: '{ "id": \"' + iddem + '\", "lastUpdatedBy": \"' + name + '\"}',
+	        headers: {
+	            "Content-Type" : "application/json"
+	        }, 
+	        success: function (data) {
+	        	
+	              alert("Demand SLA Paused"); 
+	                 	   
+	                   
+	        	//window.location.replace("/demandapproval");
+	        },
+	        error: function (data) {
+	            
+	                $("#serverContent").html(data["responseJSON"]["message"]);
+	            
+	        }
+	        
+ 	});
+ 	  
+     
+      
+    } );
+    
     
     
 } );
@@ -456,7 +501,7 @@
 '<tr>'+
 '<td>Add Work Notes</td>'+
 '<td></td>'+'&nbsp;'+
-'<td><button class="btn-post">POST COMMENT</button></td>&nbsp;'+'<td><button class="btn-upload">Upload Files</button></td>'
+'<td><button class="btn-post">POST COMMENT</button></td>&nbsp;'+'<td><button class="btn-upload">Upload Files</button></td>&nbsp;'+'<td><button class="btn-pending">Pause Demand</button></td>&nbsp;'+'<td><button class="btn-worknote" >show worknotes</button></td>'+
 '</tr>'+
 		    '</table>';
 		}

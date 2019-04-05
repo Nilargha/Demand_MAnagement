@@ -57,6 +57,11 @@ public class UIControllers {
         return "CcoeDQDemands";
     }
     
+    @RequestMapping("/ccoeeldemands")
+    public String demandselccoe(Model model) {
+        return "CcoeELDemands";
+    }
+    
     @RequestMapping("/demandapproved")
     public String approveddemand(Model model) {
         return "DemandApproved";
@@ -65,6 +70,10 @@ public class UIControllers {
     @RequestMapping("/tpdldqdemands")
     public String demandsdqtpdl(Model model) {
         return "TpdlDQDemands";
+    }
+    @RequestMapping("/tpdleldemands")
+    public String demandseltpdl(Model model) {
+        return "TpdlELDemands";
     }
 
 

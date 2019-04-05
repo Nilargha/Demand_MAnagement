@@ -29,6 +29,7 @@
   <a  href="#">Profile</a>
   <a onclick="acceptanceWorkflow()">Demands Initiated</a>
   <a onclick="qualificationWorkflow()" >Demands Under Qualification</a>
+  <a onclick="eligibilityWorkflow()" >Demands Under Eligibility Study</a>
   <a onclick= "deleteCookie()" >Logout</a>
   
 </div>
@@ -53,6 +54,10 @@ function acceptanceWorkflow(){
 function qualificationWorkflow(){
 	
 	window.location.replace("/ccoedqdemands");
+}
+function eligibilityWorkflow(){
+	
+	window.location.replace("/ccoeeldemands");
 }
 
 //]]>
